@@ -1,0 +1,23 @@
+#!name= 自用Cookie获取
+#!desc= 获取方法请看脚本注释; 建议使用后手动将该插件禁用, 以避免无意义的MITM.
+#!author= MartinsKing
+#!homepage= https://github.com/ClydeTime/Quantumult/tree/master
+#!icon= https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Tips/IMG_4128.png
+
+[Script]
+http-request ^https?:\/\/mobile\.ximalaya\.com\/app-skin-service\/skin\/ script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/xmlySign.js, tag=喜马拉雅Cookie
+
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\? script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=B站Cookie(APP)
+
+http-request ^https?:\/\/m.bilibili.com/$ script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js, tag=B站Cookie(网页)
+
+http-request https:\/\/www.hifini.com\/my.htm script-path=https://raw.githubusercontent.com/lowking/Scripts/master/hifini/hifiniSign.js, timeout=10, tag=hifini签到cookie
+
+http-request ^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?) tag=获取京东Cookie, requires-body=true, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
+
+http-request ^https:\/\/miniappcsfw\.122\.gov\.cn:8443\/openapi\/invokeApi\/business\/biz tag=获取12123Cookie, requires-body=true, script-path=https://raw.githubusercontent.com/dompling/Script/master/12123/index.js
+
+
+
+[MITM]
+hostname = app.bilibili.com, m.bilibili.com, mobile.ximalaya.com, 180.153.255.*, 180.153.250.*, 180.153.140.*, 114.80.99.*, 114.80.139.*, 114.80.161.*, 1.62.62.64, 61.172.194.184,miniappcsfw.122.gov.cn:8443,*.hifini.com,ms.jr.jd.com, me-api.jd.com, api.m.jd.com
