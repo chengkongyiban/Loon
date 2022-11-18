@@ -1,0 +1,13 @@
+#!name=stay去广告
+#!desc=去stay仓库广告
+#!homepage=https://ddgksf2013.notion.site/ddgksf2013/Cuttlefish-37a8a0cfac2247609d408db3d963c6d2
+#!author=@ddgksf2013
+#!icon=
+
+[Script]
+
+# > Stay@ddgksf2013
+http-response ^https?:\/\/api\.shenyin\.name\/stay-fork\/browse\/featured$ script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/stay.js, requires-body=true, timeout=10, tag=stay
+
+[MITM]
+hostname = api.shenyin.name
