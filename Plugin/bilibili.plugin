@@ -40,8 +40,6 @@ http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/cinema\
 http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
 # ～ BiliBili_哔哩哔哩_去除统一设置的皮肤@ddgksf2013
 http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
-# ～ BiliBili_哔哩哔哩_1080P高码率+4K画质(番剧和影视除外)@ddgksf2013
-#http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
 # ～ BiliBili_哔哩哔哩_热搜发现@ddgksf2013
 http-response ^https://app.bilibili.com/x/v2/search/square script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
 # ～ BiliBili_哔哩哔哩_推荐去广告@ddgksf2013
@@ -52,12 +50,8 @@ http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/bangumi
 http-response ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
 # ～ BiliBili_哔哩哔哩_标签页处理@ddgksf2013
 http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
-# > 哔哩哔哩魔改皮肤
+# > 哔哩哔哩魔改皮肤 @ClydeTime
 http-response ^https?:\/\/ap(i|p)\.bilibili\.com\/x\/(vip|v2|resource)\/(space|account|web|price|top_panel_info|show)(\/|\?)(mine|myinfo|access|vip_center|panel|_bridge|skin\?).* script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/BiliBili/bili_info.js, requires-body=true, timeout=10, tag=B站皮肤
-# ～ BiliBili_哔哩哔哩_1080P高码率+4K画质(番剧和影视除外)@ddgksf2013
-#http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
-# ～ BiliBili_哔哩哔哩_我的页面处理@ddgksf2013
-#http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
 
 # ～ BiliBili_哔哩哔哩_Proto去广告@app2smile
 http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=bilibili-proto
