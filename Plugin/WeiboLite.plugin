@@ -1,5 +1,7 @@
 #!name=微博Lite
 #!desc=微博轻享版去广告
+#!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/weiboad.png
+#!author=ddgksf2013
 
 [Rewrite]
 
