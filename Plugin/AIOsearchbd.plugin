@@ -1,0 +1,61 @@
+#!name=All-In-One-Search
+#!desc=Safari全能搜索(需要把Safari的搜索引擎设置为：百度)
+https://github.com/Coldvvater/Mononoke
+#!icon=https://raw.githubusercontent.com/Coldvvater/Coldvvater/master/img-folder/Q.png
+
+[Rewrite]
+
+#wk (Wikipedia中文)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=wk\+([^&]+) 302 https://zh.wikipedia.org/wiki/$1
+#wiki (Wikipedia)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=wiki\+([^&]+) 302 https://wikipedia.org/wiki/$1
+# yd  (有道词典)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=yd\+([^&]+) 302 https://dict.youdao.com/search?q=$1
+# trc  (Google 译至中)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=trc\+([^&]+) 302 https://translate.google.com/#view=home&op=translate&sl=auto&tl=zh-CN&text=$1
+# tre  (Google 译至英)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=tre\+([^&]+) 302 https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=$1
+# trj  (Google 译至日)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=trj\+([^&]+) 302 https://translate.google.com/#view=home&op=translate&sl=auto&tl=ja&text=$1
+# gm (Google图片)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=gm\+([^&]+) 302 https://www.google.com/search?&tbm=isch&q=$1
+# gh (GitHub)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=gh\+([^&]+) 302 https://github.com/search?q=$1
+# tf (Google 搜索 TestFlight)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=tf\+([^&]+) 302 https://www.google.com/search?as_q=$1&as_sitesearch=testflight.apple.com
+# wb (微博)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=wb\+([^&]+) 302 https://s.weibo.com/weibo/$1
+# wx (微信)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=wx\+([^&]+) 302 https://weixin.sogou.com/weixinwap?query=$1
+# jd (京东)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=jd\+([^&]+) 302 https://so.m.jd.com/ware/search.action?keyword=$1
+# tb (淘宝)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=tb\+([^&]+) 302 https://s.m.taobao.com/h5?q=$1
+# tm (天猫)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=tm\+([^&]+) 302 https://s.m.tmall.com/m/search.htm?q=$1
+# ytb (YouTube)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=ytb\+([^&]+) 302 https://www.youtube.com/results?search_query=$1
+#vf（voflix视频网站）
+^https:\/\/m\.baidu\.com/s\?from=.+&word=vf\+([^&]+) 302 https://www.voflix.com/search/-------------.html?wd=$1
+# ph (PornHub)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=ph\+([^&]+) 302 https://cn.pornhub.com/video/search?search=$1
+# bi (必应)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=bi\+([^&]+) 302 https://cn.bing.com/search?q=$1
+# bd (百度)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=bd\+([^&]+) 302 https://www.baidu.com/s?wd=$1
+# ccn (App Store 临时换至中国区)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=ccn 302 https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143465&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=cn&urlDesc=
+# uus (App Store 临时换至美国区)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=uus 302 https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143441&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=us&urlDesc=
+# jjp （APP Store 切换至JP）
+^https:\/\/m\.baidu\.com/s\?from=.+&word=jjp 302 https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143462&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=jp&urlDesc=
+# ttr （APP Store 切换至TR）
+^https:\/\/m\.baidu\.com/s\?from=.+&word=ttr 302 https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143480&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=tr&urlDesc=
+# ddg (DuckDuckGo)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=ddg\+([^&]+) 302 https://duckduckgo.com/?ia=about&q=$1
+# 无指令 (Google)
+^https:\/\/m\.baidu\.com/s\?from=.+&word=([^&]+) 302 https://www.google.com/search?q=$1
+
+[MITM]
+
+hostname = m.baidu.com
