@@ -1,0 +1,106 @@
+#!name=去广告整合
+#!desc=通用广告整合
+#!homepage=https://github/zqzess
+#!author=zqzess
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png
+
+[Rewrite]
+
+#爱思去广告
+^https?:\/\/d\.image\.i4\.cn\/adInfo\/.+ reject
+#酷我9.1.0去广告
+^https?:\/\/wapi\.kuwo\.cn\/api\/mobile\/index\/feed\?.+ reject
+fvedio\.kuwo\.cn reject-dict
+#美团
+^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) reject
+#米读
+^https:\/\/apiwz\.midukanshu\.com\/advert\/getPopup$ reject
+^https:\/\/apiwz\.midukanshu\.com\/advert\/treasureInfo$ reject
+^https:\/\/apiwz\.midukanshu\.com\/config\/getAds$ reject
+#backiee
+^https:\/\/www\.google\.com\.hk\/ads reject
+^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/ reject-img
+#京东屏蔽开屏广告
+^https?:\/\/api\.m\.jd\.com\/client\.action\*functionId=start reject-dict
+^https?:\/\/api\.m\.jd.com\/client\.action\*functionId=queryMaterialAdverts reject-dict
+^https?:\/\/api\.m\.jd\.com\/client\.action*functionId=msgEntranceV710 reject-200
+^https?:\/\/api\.m\.jd\.com\/client\.action*functionId=xview2Config reject-200
+#中国招商银行
+^https?:\/\/mlife\.cmbchina\.com\/ClientFaceService\/preCacheAdvertise\.json reject
+^https?:\/\/mlife\.cmbchina\.com\/ClientFaceService\/getAdvertisement\.json reject
+^https?:\/\/pic1cdn\.cmbchina\.com\/appinitads\/ reject
+#买单吧4.7.2开屏,升级提示
+^https:\/\/creditcardapp\.bankcomm\.com\/mappweb_interaction\/json\/app\/appManage\/getApkUpdateInfo\.do reject
+^https:\/\/creditcardapp\.bankcomm\.com\/mappweb_interaction\/common\/getPopAds\.do reject
+^https:\/\/creditcardapp\.bankcomm\.com\/mappweb_interaction\/common\/queryGuidePageAds\.do reject
+# 有兔阅读(米兔)去羞耻的开屏广告图片
+^http:\/\/img\.dailmo\.com\/img\/61\/23c7125bfe6166d69f3bff5b0ca4d31e\.jpg reject
+^http:\/\/img\.dailmo\.com\/img\/50\/edb40c6392f848df37f9c31d8a6f90f6\.jpg reject
+^http:\/\/img\.dailmo\.com\/img\/6\/90585d9e96c73dd49644af57d8501624\.jpg reject
+^http:\/\/img\.dailmo\.com\/img\/5\/6cb2aa237ce1f65944aa1ecb29fbdeef\.jpg reject
+^http:\/\/img\.allahall\.com\/img\/61\/23c7125bfe6166d69f3bff5b0ca4d31e\.jpg reject
+^http:\/\/img\.allahall\.com\/img\/50\/edb40c6392f848df37f9c31d8a6f90f6\.jpg reject
+^http:\/\/img\.allahall\.com\/img\/6\/90585d9e96c73dd49644af57d8501624\.jpg reject
+^http:\/\/img\.allahall\.com\/img\/5\/6cb2aa237ce1f65944aa1ecb29fbdeef\.jpg reject
+^http:\/\/img\.allahall\.com\/img\/59\/6a13a75dfe46ebfdac96bd27ef098885\.jpg reject
+^https?:\/\/img\.alipaycashyuan\.com\/img\/59\/6a13a75dfe46ebfdac96bd27ef098885\.+ reject
+^http:\/\/app\.zhoudamozi\.com\/ad\/.+ reject
+# 书旗小说去广告
+^http:\/\/ut2\.shuqistat\.com\/.+\.gif reject
+^https?:\/\/sq\.sljkj\.com\/api\/sdk\/ads2 reject
+^https?:\/\/ocean\.shuqireader\.com\/api\/ad\/adserver\/.+ reject
+^https?:\/\/ocean\.shuqireader\.com\/api\/route\/iosReadPage\/ad.+ reject
+^https?:\/\/img-tailor\.11222\.cn\/pm\/app\/.+\.gif reject
+^https?:\/\/img-tailor\.11222\.cn\/cms\/upload\/img\/.+ reject
+^http:\/\/message\.shuqireader\.com\/message\/.+ reject
+^https?:\/\/mobads\.baidu\.com\/cpro\/ui\/mads.+ reject
+^http:\/\/101\.91\.69\.26:8080\/.+ reject
+^http:\/\/feedback.uc.cn\/feedback\/api\/get_unread_status reject
+^http:\/\/.+\.shuqireader\.com\/sapi\/.+ reject
+# 每日优鲜开屏广告->j-image.missfresh.cn
+^https:\/\/j-image\.missfresh\.cn\/img_(.+)\.gif$ reject
+^https:\/\/j-image\.missfresh\.cn\/img_(.+)\.(jpg|jpeg|gif|png)\?iopcmd=convert&dst=webp&q=85$ reject
+# 网易云广告->m.ads.8le8le.com,iadmusicmat.music.com
+^https?:\/\/iadmusicmat\.music\.126\.net\/.+\.jpg reject
+^http:\/\/interface\.music\.163\.com\/eapi\/ad\/config\/get reject
+^https?:\//m\.ads\.8le8le\.com\/adShow reject
+# 高德地图广告
+https:\/\/m5\.amap\.com\/ws\/shield\/nest\/updatable\/v1\/preUpgrade\? reject
+^http:\/\/ems\.youku\.com\/imp\? reject
+^http:\/\/optimus-ads\.amap\.com\/uploadimg\/.+ reject
+^https?:\/\/m5.amap.com\/ws\/valueadded\/ reject
+# 携程广告->ma-adx.ctrip.com,m.ctrip.com
+^https:\/\/ma-adx\.ctrip\.com\/_ma\.gif reject
+^https:\/\/m\.ctrip\.com\/restapi\/.+\/json\/tripAds reject
+^https:\/\/mbd\.baidu\.com\/newspage\/api\/getmobads\?page\=landingshare reject
+# 爱奇艺广告屏蔽
+^http:\/\/.+\.iqiyipic\.com\/image\/.+\/ad\/.+\.jpg reject
+^http:\/\/static-s\.iqiyi\.com\/common\/.+\/Small_video/a2/af/.+\.png reject
+^http://msga/.cupid/.iqiyi/.com\/scp2\.gif reject
+https?:\/\/ssports\.iqiyi\.com\/app\/ reject
+https?:\/\/ssports\.iqiyi\.com\/json\/shop\/shopInfo  reject
+https?:\/\/.+\.iqiyi\.com\/videos\/other\/20$ reject
+https?:\/\/.+\.iqiyipic\.com\/image\/20*_100000 reject
+#https?:\/\/static\.iqiyi\.com\/js\/common\/.+\.js - reject
+https?:\/\/t7z\.cupid\.iqiyi\.com\/show reject
+# 搬运爱奇艺(by gitee-木剑)->act.vip.iqiyi.com
+^https?:\/\/iface\.iqiyi\.com\/api\/getNewAdInfo reject
+^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/show\.do reject
+^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v\d\/show reject
+# 网易邮箱->appconf.mail.163.com,analytics.163.com
+https:\/\/appconf\.mail\.163\.com\/mmad\/get\.do reject
+http:\/\/analytics\.163\.com\/ntes reject
+# 搬运淘宝(by gitee-木剑)->gw.alicdn.com,heic.alicdn.com
+^https?:\/\/(gw|heic)\.alicdn\.com\/\w{2}s\/.+\.jpg_(9\d{2}|\d{4}) reject
+^https?:\/\/(gw|heic)\.alicdn\.com\/imgextra\/.+\d{4}-\d{4}\.jpg_(9\d{2}|\d{4}) reject
+
+[Script]
+
+# 微信公众号广告屏蔽(By Choler)
+http-response ^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js, requires-body=true, tag=微信公众号广告屏蔽
+
+
+
+[MITM]
+
+hostname = appconf.mail.163.com,analytics.163.com,mbd.baidu.com,m.ads.8le8le.com,iadmusicmat.music.com,ma-adx.ctrip.com,m.ctrip.com,api.m.jd.com,bdsp-x.jd.com,dsp-x.jd.com,mp.weixin.qq.com,ocean.shuqireader.com,mi.gdt.qq.com,mobads.baidu.com,sq.sljkj.com,img-tailor.11222.cn,j-image.missfresh.cn,act.vip.iqiyi.com,gw.alicdn.com,heic.alicdn.com,apiwz.midukanshu.com,*.iqiyipic.com,*.iqiyi.com,m5.amap.com,flowplus.meituan.net,*.bankcomm.com
