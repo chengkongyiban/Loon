@@ -7,9 +7,9 @@
 [Rewrite]
 
 #爱思去广告
-^https?:\/\/d\.image\.i4\.cn\/adInfo\/.+ reject
+^https?:\/\/d\.image\.i4\.cn\/adInfo\/.+ reject-dict
 #酷我9.1.0去广告
-^https?:\/\/wapi\.kuwo\.cn\/api\/mobile\/index\/feed\?.+ reject
+^https?:\/\/wapi\.kuwo\.cn\/api\/mobile\/index\/feed\?.+ reject-dict
 fvedio\.kuwo\.cn reject-dict
 #美团
 ^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) reject
