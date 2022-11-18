@@ -1,0 +1,17 @@
+#!name=YouTube去广告
+#!desc=全面去广告，只需要这一个插件
+#!homepage=https://github.com/Maasea
+#!author=@Maasea
+#!icon=https://gitlab.com/lodepuly/vpn_tool/-/raw/main/Resource/Icon/80px/YouTube.png
+
+[Rewrite]
+
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad reject-dict
+
+[Script]
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide) script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js, requires-body=true, binary-body-mode=true, timeout=10, tag=YouTubeAds
+
+[MITM]
+
+hostname = *.googlevideo.com, youtubei.googleapis.com
