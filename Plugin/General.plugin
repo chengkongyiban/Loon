@@ -1,0 +1,91 @@
+#!name=Advanced Settings & URL Redirect
+#!desc=高级设置及通用的 URL 重定向优化（如 Google 搜索及地图、AbeamTV 区域限制等）
+#!homepage=https://github.com/DivineEngine/Profiles/tree/master
+#!author=DivineEngine
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bypass.png
+
+[Rewrite]
+
+# AbeamTV - api.*.abema-tv.com
+^https?:\/\/api\.[\w-]+\.abema-tv\.com\/v\d\/ip\/check reject-200
+# Redirect Google Search Service
+^https?:\/\/(www.)?(g|google)\.cn 302 https://www.google.com
+# Redirect Google Maps Service
+^https?:\/\/(ditu|maps).google\.cn 302 https://maps.google.com
+# Redirect HTTP to HTTPS
+^https?:\/\/(www.)?taobao\.com\/ 302 https://taobao.com/
+^https?:\/\/(www.)?jd\.com\/ 302 https://www.jd.com/
+^https?:\/\/(www.)?mi\.com\/ 302 https://www.mi.com/
+^https?:\/\/you\.163\.com\/ 302 https://you.163.com/
+^https?:\/\/(www.)?suning\.com\/ 302 https://suning.com/
+^https?:\/\/(www.)?yhd\.com\/ 302 https://yhd.com/
+# > Firefox - www.firefox.com.cn
+^https?:\/\/(www.)?firefox\.com\.cn\/(download\/)?$ 302 https://www.mozilla.org/zh-CN/firefox/new/
+# > IGN China to IGN Global
+^https?:\/\/(www.)?ign\.xn--fiqs8s\/ 302 http://cn.ign.com/ccpref/us
+# > Fake Website Made By C&J Marketing
+^https?:\/\/(www.)?abbyychina\.com\/ 302 https://www.abbyy.cn/
+^https?:\/\/(www.)?alienskins\.cn\/ 302 https://exposure.software/
+^https?:\/\/(www.)?anydeskchina\.cn\/ 302 https://anydesk.com/zhs
+^https?:\/\/(www.)?bartender\.cc\/ 302 https://www.macbartender.com/
+^https?:\/\/(www.)?(betterzipcn|betterzip)\.(com|net)\/ 302 https://macitbetter.com/
+^https?:\/\/(www.)?beyondcompare\.cc\/ 302 https://www.scootersoftware.com/
+^https?:\/\/(www.)?bingdianhuanyuan\.cn\/ 302 https://www.faronics.com/zh-hans/products/deep-freeze
+^https?:\/\/(www.)?chemdraw\.com\.cn\/ 302 https://www.perkinelmer.com.cn/
+^https?:\/\/(www.)?codesoftchina\.com\/ 302 https://www.teklynx.com/
+^https?:\/\/(www.)?coreldrawchina\.com\/ 302 https://www.coreldraw.com/cn/
+^https?:\/\/(www.)?crossoverchina\.com\/ 302 https://www.codeweavers.com/
+^https?:\/\/(www.)?dongmansoft\.com\/ 302 https://www.udongman.cn/
+^https?:\/\/(www.)?earmasterchina\.cn\/ 302 https://www.earmaster.com/
+^https?:\/\/(www.)?easyrecoverychina\.com\/ 302 https://www.ontrack.com/
+^https?:\/\/(www.)?ediuschina\.com\/ 302 https://www.grassvalley.com/
+^https?:\/\/(www.)?flstudiochina\.com\/ 302 https://www.image-line.com/
+^https?:\/\/(www.)?folxchina\.cn\/ 302 https://mac.eltima.com/cn/download-manager.html
+^https?:\/\/(www.)?formysql\.com\/ 302 https://www.navicat.com.cn/
+^https?:\/\/(www.)?guitarpro\.cc\/ 302 https://www.guitar-pro.com/
+^https?:\/\/(www.)?huishenghuiying\.com\.cn\/ 302 https://www.coreldraw.com/cn/
+^https?:\/\/(www.)?hypeapp\.cn\/ 302 https://tumult.com/hype/
+^https?:\/\/hypersnap\.mairuan\.com\/ 302 https://www.hyperionics.com/
+^https?:\/\/(www.)?iconworkshop\.cn\/ 302 https://www.axialis.com/
+^https?:\/\/(www.)?idmchina\.net\/ 302 https://www.internetdownloadmanager.com/
+^https?:\/\/(www.)?imazingchina\.com\/ 302 https://imazing.com/zh
+^https?:\/\/(www.)?imindmap\.cc\/ 302 https://www.ayoa.com/previously-imindmap/
+^https?:\/\/(www.)?jihehuaban\.com\.cn\/ 302 https://www.chartwellyorke.com/sketchpad/x24795.html
+^https?:\/\/hypersnap\.mairuan\.com\/ 302 https://www.keyshot.com/
+^https?:\/\/(www.)?kingdeecn\.cn\/ 302 http://www.kingdee.com/
+^https?:\/\/(www.)?logoshejishi\.com 302 https://www.sothink.com/product/logo-design-software/
+^https?:\/\/logoshejishi\.mairuan\.com\/ 302 https://www.sothink.com/product/logo-design-software/
+^https?:\/\/(www.)?luping\.net\.cn\/ 302 https://www.techsmith.com/
+^https?:\/\/(www.)?mathtype\.cn\/ 302 https://www.dessci.com/
+^https?:\/\/(www.)?mindmanager\.(cc|cn)\/ 302 https://www.mindjet.com/cn/
+^https?:\/\/(www.)?mindmapper\.cc\/ 302 https://www.mindmapper.com/
+^https?:\/\/(www.)?(mycleanmymac|xitongqingli)\.com\/ 302 https://macpaw.com/
+^https?:\/\/(www.)?nicelabel\.cc\/ 302 https://www.nicelabel.com/zh/
+^https?:\/\/(www.)?ntfsformac\.cc\/ 302 https://www.tuxera.com/products/tuxera-ntfs-for-mac-cn/
+^https?:\/\/(www.)?ntfsformac\.cn\/ 302 https://china.paragon-software.com/home-mac/ntfs-for-mac/
+^https?:\/\/(www.)?officesoftcn\.com\/ 302 https://www.microsoft.com/zh-cn/microsoft-365
+^https?:\/\/(www.)?overturechina\.com\/ 302 https://sonicscores.com/
+^https?:\/\/(www.)?passwordrecovery\.cn\/ 302 https://cn.elcomsoft.com/aopr.html
+^https?:\/\/(www.)?pdfexpert\.cc\/ 302 https://pdfexpert.com/zh
+^https?:\/\/(www.)?photozoomchina\.com\/ 302 https://www.benvista.com/
+^https?:\/\/(www.)?shankejingling\.com\/ 302 https://www.sothink.com/product/flashdecompiler/
+^https?:\/\/cn\.ultraiso\.net\/ 302 https://cn.ezbsystems.com/ultraiso/
+^https?:\/\/(www.)?vegaschina\.cn\/ 302 https://www.vegascreativesoftware.com/
+^https?:\/\/(www.)?xshellcn\.com\/ 302 https://www.netsarang.com/zh/xshell/
+^https?:\/\/(www.)?yuanchengxiezuo\.com\/ 302 https://www.teamviewer.com/
+^https?:\/\/(www.)?zbrushcn.com/ 302 https://pixologic.com/
+^https?:\/\/(www.)?anydeskchina.cn/ 302 https://anydesk.com/zhs
+# bstar intl
+(^https?:\/\/app\.biliintl\.com\/(x\/)?(intl|dm|reply|history|v\d\/(fav|msgfeed)).+?)(&s_locale=zh-Hans_[A-Z]{2})(.+?)(&sim_code=\d+)(.+) 302 $1&s_locale=zh-Hans_PH$6&sim_code=51503$8
+(^https?:\/\/passport\.biliintl\.com\/x\/intl\/passport-login\/.+)(&s_locale=zh-Hans_[A-Z]{2})(.+)(&sim_code=\d+)(.+) 302 $1&s_locale=zh-Hans_PH$35&sim_code=51503$5
+# AICoin
+^http:\/\/(www.)?aicoin\.cn\/$ 302 https://www.aicoin.com/
+
+[Script]
+
+http-request ^https?:\/\/passport\.biliintl\.com\/x\/intl\/passport-login\/(sms\/send|reg\/sms|oauth2\/access_token|login\/sms) script-path=https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Rewrite/bstar.js, requires-body=true, timeout=10, tag=bstar
+http-request ^https?:\/\/app\.biliintl\.com\/(intl\/gateway\/v\d\/app\/data\/report\/heartbeat\/mobile|x\/(history|reply)/v\d/add) script-path=https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Rewrite/bstar.js, requires-body=true, timeout=10, tag=bstar
+
+[MITM]
+
+hostname = www.google.cn,www.firefox.com.cn,api.*.abema-tv.com,app.biliintl.com,passport.biliintl.com
