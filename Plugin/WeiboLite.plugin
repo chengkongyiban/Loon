@@ -31,4 +31,4 @@ http-request ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=sea
 
 [MITM]
 
-hostname = *api.weibo*,sdkapp.uve.weibo.com
+hostname = *.uve.weibo.com,*api.weibo.cn,*api.weibo.com,h5.sinaimg.cn,new.vip.weibo.cn,*.sc.weibo.com,captcha.weibo.com,wx*.sinaimg.cn,js.t.sinajs.cn,*.e.weibo.com
