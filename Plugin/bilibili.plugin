@@ -5,59 +5,67 @@
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/biliad.png
 
 
+
+[Rule]
+#防止tun模式下切区脚本失效
+IP-CIDR,203.107.1.1/24,REJECT,no-resolve
+
 [Rewrite]
 
-#哔哩哔哩Upos服务器替换为腾讯Cos对象存储
-^https?:\/\/upos-hz-mirrorakam\.akamaized\.net\/(.*) 302 https://upos-sz-mirrorcos.bilivideo.com/$1
+#UPOS服务器替换为腾讯Cos对象存储
+^https?:\/\/upos-hz-mirrorakam\.akamaized\.net\/(.*) https://upos-sz-mirrorcos.bilivideo.com/$1 302
 # ～ BiliBili_哔哩哔哩_屏蔽广告浮窗@ddgksf2013
-^https?:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive reject-dict
+^https?:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive - reject-dict
 # ～ BiliBili_哔哩哔哩_屏蔽IP请求@ddgksf2013
-^https?:\/\/app\.bilibili\.com\/x\/resource\/ip reject
+^https?:\/\/app\.bilibili\.com\/x\/resource\/ip - reject
 # ～ BiliBili_哔哩哔哩_屏蔽DefaultWord@ddgksf2013
-^https?:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/Default reject
+^https?:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/Default - reject
 # ～ BiliBili_哔哩哔哩_应用开屏去广告@bm7
-^https://app.bilibili.com/x/v2/splash/show reject-dict
+^https://app.bilibili.com/x/v2/splash/show - reject-dict
 # ～ BiliBili_哔哩哔哩_Defaultword@ddgksf2013
-^https://app.bilibili.com/x/v2/search/defaultwords reject-dict
+^https://app.bilibili.com/x/v2/search/defaultwords - reject-dict
 # ～ BiliBili_哔哩哔哩_Material_Ad@ddgksf2013
-^https?:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report reject-dict
+^https?:\/\/api\.bilibili\.com\/x\/vip\/ads\/material\/report - reject-dict
 # ～ BiliBili_哔哩哔哩_小卡片广告@ddgksf2013
-^https://api.bilibili.com/pgc/season/player/cards reject-dict
+^https://api.bilibili.com/pgc/season/player/cards - reject-dict
 # ～ BiliBili_哔哩哔哩_去除动态中的话题@bm7
-^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr reject-dict
+^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject-dict
 # ～ BiliBili_哔哩哔哩_漫画去广告@ddgksf2013
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Flash|ListFlash) reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Flash|ListFlash) - reject-dict
 
 [Script]
 
-# ～ BiliBili_哔哩哔哩_屏蔽首页右上活动[卸载重装]@ddgksf2013
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
-# ～ BiliBili_哔哩哔哩_启动时开启直连模式[自行启用]@ddgksf2013
-;http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/domain script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_startup_direct.js, requires-body=true, timeout=10, tag=bilibili_startup_direct
-# ～ BiliBili_哔哩哔哩_繁体CC字幕转中文简体[自行启用]@ddgksf2013
-http-response ^https?:\/\/i.\.hdslb\.com\/bfs\/subtitle\/.+\.json$ script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_cc.js, requires-body=true, timeout=10, tag=bilibili_cc
+# ～ 嗶哩嗶哩繁體CC字幕轉中文簡體（2022-04-02）@ddgksf2013
+http-response ^https?:\/\/i.\.hdslb\.com\/bfs\/subtitle\/.+\.json$ script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_cc.js,requires-body=1,max-size=3145728,timeout=60, tag=简体字幕 
 # ～ BiliBili_哔哩哔哩_观影页面去广告@ddgksf2013
-http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/cinema\/tab\? script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/cinema\/tab\? script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=观影页广告 
 # ～ BiliBili_哔哩哔哩_应用开屏广告预加载@yjqiang
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=开屏预加载 
 # ～ BiliBili_哔哩哔哩_热搜发现@ddgksf2013
-http-response ^https://app.bilibili.com/x/v2/search/square script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https://app.bilibili.com/x/v2/search/square script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=热搜 
+# ～ BiliBili_哔哩哔哩_屏蔽首页右上活动@ddgksf2013
+http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=屏蔽首页右上角活动 
 # ～ BiliBili_哔哩哔哩_推荐去广告@ddgksf2013
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=推荐去广告 
 # ～ BiliBili_哔哩哔哩_追番去广告@ddgksf2013
-http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/bangumi script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https?:\/\/api\.(bilibili|biliapi)\.(com|net)\/pgc\/page\/bangumi script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=追番去广告 
 # ～ BiliBili_哔哩哔哩_直播去广告@bm7
-http-response ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
+http-response ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=直播去广告 
 # ～ BiliBili_哔哩哔哩_标签页处理@ddgksf2013
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/bilibili_json.js, requires-body=true, timeout=10, tag=bilibili_json
-# > 哔哩哔哩魔改皮肤 @ClydeTime
-http-response ^https?:\/\/ap(i|p)\.bilibili\.com\/x\/(vip|v2|resource)\/(space|account|web|price|top_panel_info|show)(\/|\?)(mine|myinfo|access|vip_center|panel|_bridge|skin\?).* script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/BiliBili/bili_info.js, requires-body=true, timeout=10, tag=B站皮肤
-
+http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=标签页处理 
 # ～ BiliBili_哔哩哔哩_Proto去广告@app2smile
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=bilibili-proto
+http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll|playurl\.v1\.PlayURL\/PlayView)$ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/bilibili-proto.js,requires-body=1,binary-body-mode=1,max-size=0,script-update-interval=0, tag=bili-proto 
+# ～ BiliBili_哔哩哔哩_我的页面处理@ddgksf2013
+#http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=我的页面处理 
+# ～ BiliBili_哔哩哔哩_1080P高码率+4K画质(番剧和影视除外)@ddgksf2013
+#http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/bilibili_json.js,requires-body=1,max-size=3145728,timeout=60, tag=解锁高码率 
+#魔改皮肤 作者@ClydeTime
+http-response ^https?:\/\/ap(i|p)\.bilibili\.com\/x\/(vip|v2|resource)\/(space|account|web|price|top_panel_info|show)(\/|\?)(mine|myinfo|access|vip_center|panel|_bridge|skin\?).* script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/BiliBili/bili_info.js,requires-body=1,max-size=3145728,timeout=60, tag=魔改皮肤 
+#B站切区 作者@Nobyda
+#http-response ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\? script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js,requires-body=1,max-size=3145728,timeout=60, tag=Bili Region 
+#可选, 适用于搜索指定地区的番剧 作者@Nobyda
+#http-request ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)& script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js,timeout=60, tag=Bili Search 
 
 [MITM]
+
 hostname = *.hdslb.com,app.bilibili.com,api.live.bilibili.com,api.vc.bilibili.com,api.bilibili.com,manga.bilibili.com,grpc.biliapi.net,api.biliapi.net,-broadcast.chat.bilibili.com,-*cdn*.biliapi.net,-*tracker*.biliapi.net,upos-hz-mirrorakam.akamaized.net
-
-
-
