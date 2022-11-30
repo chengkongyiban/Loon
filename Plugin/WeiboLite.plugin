@@ -5,30 +5,25 @@
 
 [Rewrite]
 
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=hot_search_users reject-dict
-# ～ WeiboLite_微博国际版_热推荐@ddgksf2013
-^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/ad\/weibointl\? reject-dict
-# ～ WeiboLite_微博国际版_sdkad@ddgksf2013
-https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php  reject-dict
 # ～ WeiboLite_微博国际版_屏蔽search_suggest@ddgksf2013 
-# ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/page\/get_search_suggest reject-dict
+^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/page\/get_search_suggest - reject-dict
+
+# ～ WeiboLite_微博国际版_屏蔽searching_info@ddgksf2013 
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*user&a=get_searching_info - reject
+
+# ～ WeiboLite_微博国际版_屏蔽search_topic@ddgksf2013 
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=search_topic - reject
+
 # ～ WeiboLite_微博国际版_屏蔽开屏广告@ddgksf2013 
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*ads reject-dict
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*ads - reject
 
 [Script]
 
-# ～ WeiboLite_微博国际版_主页推荐tab|热门tab去广告@ddgksf2013
-http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses\/unread_hot_timeline script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/weibo_json.js, requires-body=true, timeout=10, tag=weibo_json
-# ～ WeiboLite_微博国际版_主页关注tab去广告@ddgksf2013 
-http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses\/friends_timeline script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/weibo_json.js, requires-body=true, timeout=10, tag=weibo_json
+# ～ WeiboLite_微博国际版_关注tab去广告@ddgksf2013 
+http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses\/friends_timeline script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/weibo_json.js,requires-body=1,max-size=0, tag=关注tab去广告 
+# ～ WeiboLite_微博国际版_推荐tab|热门tab去广告@ddgksf2013
+http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/statuses\/unread_hot_timeline script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/weibo_json.js,requires-body=1,max-size=0, tag=热门tab去广告 
+# ～ WeiboLite_微博国际版_趋势tab@ddgksf2013 
+http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/cardlist script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/weibo_json.js,requires-body=1,max-size=0, tag=趋势tab 
 # ～ WeiboLite_微博国际版_趋势tab去广告@ddgksf2013 
-http-response ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/cardlist script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/weibo_json.js, requires-body=true, timeout=10, tag=weibo_json
-# ～ WeiboLite_微博国际版_趋势顶部CARD去广告@ddgksf2013
-http-response ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=trends script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/weibo_json.js, requires-body=true, timeout=10, tag=weibo_json
-
-# ～ WeiboLite_微博国际版_屏蔽search_topic@ddgksf2013 
-http-request ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=search_topic script-path=https://ocd0522.tk/ddgksf2013/Cuttlefish/raw/branch/master/Script/weibo_json.js, requires-body=false, timeout=10, tag=weibo_json
-
-[MITM]
-
-hostname = *.uve.weibo.com,*api.weibo.cn,*api.weibo.com,h5.sinaimg.cn,new.vip.weibo.cn,*.sc.weibo.com,captcha.weibo.com,wx*.sinaimg.cn,js.t.sinajs.cn,*.e.weibo.com
+http-response ^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*feed&a=trends script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/weibo_json.js,requires-body=1,max-size=0, tag=趋势tab去广告
