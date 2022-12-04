@@ -1,0 +1,15 @@
+#!name=哔哩哔哩
+#!desc=b站去广告
+#!homepage=https://ddgksf2013.notion.site/ddgksf2013/Cuttlefish-37a8a0cfac2247609d408db3d963c6d2
+#!author=ddgksf2013
+#!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/biliad.png
+
+
+[Script]
+
+#魔改皮肤 作者@ClydeTime
+http-response ^https?:\/\/ap(i|p)\.bilibili\.com\/x\/(vip|v2|resource)\/(space|account|web|price|top_panel_info|show)(\/|\?)(mine|myinfo|access|vip_center|panel|_bridge|skin\?).* script-path=https://raw.githubusercontent.com/chengkongyiban/MyPrivate/main/scripts/bili_info.js,requires-body=1,max-size=3145728,timeout=60, tag=魔改皮肤 
+
+[MITM]
+
+hostname = *.hdslb.com,app.bilibili.com,api.live.bilibili.com,api.vc.bilibili.com,api.bilibili.com,manga.bilibili.com,grpc.biliapi.net,api.biliapi.net,-broadcast.chat.bilibili.com,-*cdn*.biliapi.net,-*tracker*.biliapi.net,upos-hz-mirrorakam.akamaized.net
