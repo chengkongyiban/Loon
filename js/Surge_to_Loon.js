@@ -183,7 +183,7 @@ let op = x.match(/\x20response-header/) ?
 //hostname				
 			case "hostname":
 			x = x.replace(/\x20/gi,'');
-				MITM = x.replace(/hostname=%.+%(.*)/, `hostname = $1`);
+				MITM = x.replace(/hostname=%.+%(.*)/, `[MITM]\nhostname = $1`);
 				break;
 			default:
 //重定向			
@@ -225,6 +225,8 @@ script = (script[0] || '') && `[Script]\n${script.join("\n")}`;
 URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n${URLRewrite.join("\n")}`;
 
 URLRewrite = URLRewrite.replace(/"/gi,'')
+
+MITM = M
 /********
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
