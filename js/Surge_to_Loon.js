@@ -46,8 +46,6 @@ body.forEach((x, y, z) => {
 				
 				let rebody = x.match('requires-body=(true|1)') ? ',requires-body=true' : '';
 				
-				let size = x.match('requires-body=(true|1)') ? ',max-size=3145728' : '';
-				
 				let proto = x.match('binary-body-mode=(true|1)') ? ',binary-body-mode=true' : '';
 				
 				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/(\#|\;|\/\/)/,'');
@@ -61,7 +59,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/[^\s]+http-re[^\s]+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${size}${proto},script-update-interval=0,tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},script-update-interval=0,tag=${scname}`
 					),
 				);
 				}if (x.match(/http-(response|request)\x20/)){
@@ -72,7 +70,6 @@ body.forEach((x, y, z) => {
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let proto = x.match('binary-body-mode=(true|1)') ? ',binary-body-mode=true' : '';
 				let rebody = x.match('requires-body=(true|1)') ? ',requires-body=true' : '';
-				let size = x.match('requires-body=(true|1)') ? ',max-size=3145728' : '';
 				
 				let ptn = x.split(" ")[1].replace(/\"/gi,'');
 				
@@ -85,7 +82,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.*http-(response|request)\x20.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${size}${proto},script-update-interval=0,tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},script-update-interval=0,tag=${scname}`
 					),
 				);
 				}else{
