@@ -1,6 +1,8 @@
+/*****************
 
+脚本修改自@小白脸
 
-
+*****************/
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
 !(async () => {
