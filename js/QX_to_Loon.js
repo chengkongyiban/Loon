@@ -58,7 +58,7 @@ body.forEach((x, y, z) => {
 					),
 				);
 			}else{
-				console.log('不支持的脚本类型' + x)
+				
 			}
 				break;
 
