@@ -4,9 +4,16 @@
 脚本修改自@小白脸
 ***************************/
 
+/****************************
+
+说明
+   t&zd; = {  , }  花括号中的逗号
+
+***************************/
+
 let req = $request.url.replace(/sg$/,'')
-let name = '#!name = ' + req.match(/.+\/(.+)\.(sgmodule|module)/)?.[1] || '无名';
-let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module)/)?.[1] || '无名';
+let name = '#!name = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
+let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
 !(async () => {
   let body = await http(req);
 
@@ -21,7 +28,7 @@ let others = [];          //不支持的内容
 
 body.forEach((x, y, z) => {
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|URL-REGEX|\x20data=|\-header|hostname| 30(2|7)/
+		/http-re|cronexp|\x20-\x20reject|URL-REGEX|\x20data=|\-header|^hostname| 30(2|7)/
 	)?.[0];
 	
 	//判断注释
@@ -78,7 +85,7 @@ body.forEach((x, y, z) => {
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
 				
-				let scname = x.replace(/\x20/gi,'').split("tag=")[1];
+				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 					
 				script.push(
 					x.replace(
@@ -183,7 +190,7 @@ let op = x.match(/\x20response-header/) ?
 //hostname				
 			case "hostname":
 			x = x.replace(/\x20/gi,'');
-				MITM = x.replace(/hostname=%.+%(.*)/, `[MITM]\nhostname = $1`);
+				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\nhostname = $1`);
 				break;
 			default:
 //重定向			
@@ -226,7 +233,6 @@ URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n${URLRewrite.join("\n")}`;
 
 URLRewrite = URLRewrite.replace(/"/gi,'')
 
-MITM = M
 /********
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
