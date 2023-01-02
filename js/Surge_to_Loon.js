@@ -1,10 +1,4 @@
 /****************************
-说明
-   t&zd; = {  , }  花括号中的逗号
-脚本修改自@小白脸
-***************************/
-
-/****************************
 
 说明
    t&zd; = {  , }  花括号中的逗号
@@ -79,7 +73,7 @@ body.forEach((x, y, z) => {
 				let rebody = x.match('requires-body=(true|1)') ? ',requires-body=true' : '';
 				let size = x.match('requires-body=(true|1)') ? ',max-size=3145728' : '';
 				
-				let ptn = x.replace(/\s/gi,"").split(/http-response|http-request/)[1].split("script-path=")[0].replace(/\"/gi,'');
+				let ptn = x.split(" ")[1].replace(/\"/gi,'');
 				
 				let js = x.replace(/\s/gi,"").split("script-path=")[1].split(",")[0];
 				
