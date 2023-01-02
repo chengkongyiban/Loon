@@ -3,12 +3,6 @@
 脚本修改自@小白脸
 
 *****************/
-
-
-
-
-
-
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
 !(async () => {
@@ -144,7 +138,7 @@ ${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
 
 
 
- $done({ response: { status: 200 ,body:body } });
+ $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
 })()
 .catch((e) => {
