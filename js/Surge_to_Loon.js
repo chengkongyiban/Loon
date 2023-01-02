@@ -14,6 +14,7 @@ let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '�
 	body = body.match(/[^\n]+/g);
 	
 let script = [];
+let Rule = [];
 let URLRewrite = [];
 let MITM = "";
 let others = [];          //不支持的内容
@@ -22,7 +23,7 @@ let others = [];          //不支持的内容
 
 body.forEach((x, y, z) => {
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|URL-REGEX|\x20data=|\-header|^hostname| 30(2|7)/
+		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|^hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
 	
 	//判断注释
@@ -122,47 +123,6 @@ body.forEach((x, y, z) => {
 				URLRewrite.push(x.replace(/(\#|\;|\/\/)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 
-/*******************
-			case "-header":
-			if (x.match(/\(\\r\\n\)/g).length === 2){			
-				z[y - 1]?.match("#") &&  HeaderRewrite.push(z[y - 1]);
-let op = x.match(/\x20response-header/) ?
-'http-response ' : '';
-     if(x.match(/\$1\$2/)){
-		  HeaderRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${op}$1 header-del $2`))	
-		}else{
-				HeaderRewrite.push(
-					x.replace(
-						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?([^\$]+)?\$2/,
-						`${op}$1 header-replace-regex $2 $3 $4''`,
-					),
-				);
-				}
-				}else{
-	$notification.post('不支持这条规则转换,已跳过','',`${x}`);
-				}
-				break;
-**************/
-				
-//URL-REGEX转reject，排除非REJECT类型
-
-			case "URL-REGEX":
-			if (x.match(/,REJECT/)){
-				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-				let Urx2Dict = x.match('DICT') ? '-dict' : '';
-				let Urx2Array = x.match('ARRAY') ? '-array' : '';
-				let Urx2200 = x.match('200') ? '-200' : '';
-				let Urx2Img = x.match('(IMG|GIF)') ? '-img' : '';
-				
-				URLRewrite.push(
-					x.replace(/.*URL-REGEX,([^\s]+),.+/,
-					`${noteK}$1 - reject${Urx2Dict}${Urx2Array}${Urx2200}${Urx2Img}`)
-				);
-				}else{
-					console.log('未处理' + x)
-				}
-				
-				break;
 
 //Mock统统转reject，其他作用的Mock Loon无法实现
 
@@ -194,7 +154,12 @@ let op = x.match(/\x20response-header/) ?
 				z[y - 1]?.match("#")  && URLRewrite.push(z[y - 1]);
 				
 					URLRewrite.push(x.replace(/(\#|\;|\/\/)?(.+?)\x20(.+?)\x20(302|307)/, `${noteK}$2 $3 $4`));
-				} else {
+				} 
+				if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
+					z[y - 1]?.match("#")  && Rule.push(z[y - 1]);
+				
+					Rule.push(x);
+				}else {
 
 //这个看不懂不做处理
 					
@@ -229,6 +194,7 @@ URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n${URLRewrite.join("\n")}`;
 
 URLRewrite = URLRewrite.replace(/"/gi,'')
 
+Rule = (Rule[0] || '') && `[Rule]\n${Rule.join("\n")}`;
 /********
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
@@ -237,6 +203,8 @@ MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 
 body = `${name}
 ${desc}
+
+${Rule}
 
 ${URLRewrite}
 
