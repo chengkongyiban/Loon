@@ -3,6 +3,9 @@
 脚本修改自@小白脸
 
 *****************/
+
+
+
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
 !(async () => {
@@ -49,7 +52,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.+script-.+/,
-						`${noteK}http-${sctype} ${ptn} ${rebody}${size}${proto},script-path=${js},script-update-interval=0,tag=${scname}`,
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${size}${proto},script-update-interval=0,tag=${scname}`,
 					),
 				);
 				break;
@@ -66,7 +69,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.+enabled=.+/,
-						`${noteK}cron "${cronExp}"script-path=${cronJs},timeout=60,tag=${croName}`,
+						`${noteK}cron "${cronExp}" script-path=${cronJs},timeout=60,tag=${croName}`,
 					),
 				);
 				break;
