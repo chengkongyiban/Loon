@@ -7,6 +7,13 @@
 
 let req = $request.url.replace(/qx$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
+let desc = '#!desc= ' + req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
+const stickerStartNum = 1000;
+const stickerSum = 199;
+let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
+let imgUrl = "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+let icon = '#!icon = ' + imgUrl;
+
 !(async () => {
   let body = await http(req);
 
@@ -19,6 +26,7 @@ let MapLocal = [];
 let MITM = "";
 
 body.forEach((x, y, z) => {
+	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
 		/\x20script-|enabled=|url\x20reject|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
 	)?.[0];
@@ -33,20 +41,18 @@ body.forEach((x, y, z) => {
 	if (type) {
 		switch (type) {
 			case "\x20script-":
-			if (x.match('script-echo-response')) {
-				script.push('不支持转换此类型' + x)
-			}
-			if (x.match('script-(re|analyze)')){
+			
+			if (x.match(' script-')){
 				
 			
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
-				let sctype = x.match('-response') ? 'response' : 'request';
+				let sctype = x.match('script-response') ? 'response' : 'request';
 				
 				let rebody = x.match('-body|-analyze') ? ',requires-body=1' : '';
 				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				
-				let ptn = x.split(" ")[0].replace(/^(#|;|\/\/)/,'');
+				let ptn = x.split(" ")[0].replace(/^#/,'');
 				
 				let js = x.split(" ")[3];
 				
@@ -65,7 +71,7 @@ body.forEach((x, y, z) => {
 			case "enabled=":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
-				let cronExp = x.split(" http")[0].replace(/(#|;|\/\/)/,'');
+				let cronExp = x.split(" http")[0].replace(/#/,'');
 				
 				let cronJs = x.split("://")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
@@ -82,7 +88,7 @@ body.forEach((x, y, z) => {
 			case "url\x20reject":
 
 				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-				URLRewrite.push(x.replace(/(#|;|\/\/)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
+				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 
 			case "-header":
@@ -104,18 +110,19 @@ let op = x.match(/\x20response-header/) ?
 	$notification.post('不支持这条规则转换,已跳过','',`${x}`);
 				}
 				break;
-
+/*************
 			case "echo-response":
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;
+****************/				
 			case "hostname":
 				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\nhostname = $1`);
 				break;
 			default:
-				if (type.match("url ")) {
+				if (type.match("url 30")) {
 					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(#|;|\/\/)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
+					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
 				} else {
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
@@ -138,10 +145,15 @@ HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.j
 MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 
 body = `${name}
+${desc}
+${icon}
 
 ${URLRewrite}
+
 ${HeaderRewrite}
+
 ${script}
+
 ${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
 
 
