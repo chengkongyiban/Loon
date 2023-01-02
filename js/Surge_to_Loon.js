@@ -5,13 +5,6 @@
 
 ***************************/
 
-/****************************
-
-说明
-   t&zd; = {  , }  花括号中的逗号
-
-***************************/
-
 let req = $request.url.replace(/sg$/,'')
 let name = '#!name = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
 let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
@@ -93,7 +86,7 @@ body.forEach((x, y, z) => {
 					),
 				);
 				}else{
-					console.log('未处理' + x)
+					
 				}
 				
 				break;
