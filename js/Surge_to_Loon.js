@@ -184,7 +184,7 @@ let op = x.match(/\x20response-header/) ?
 //hostname				
 			case "hostname":
 			x = x.replace(/\x20/gi,'');
-				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\nhostname = $1`);
+				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\nhostname = $2`);
 				break;
 			default:
 //重定向			
