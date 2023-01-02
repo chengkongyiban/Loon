@@ -36,7 +36,7 @@ body.forEach((x, y, z) => {
 	if (type) {
 		switch (type) {
 			case "http-re":
-			
+//Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
 	x = x.replace(/\x20/gi,'').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
@@ -87,7 +87,9 @@ body.forEach((x, y, z) => {
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${size}${proto},script-update-interval=0,tag=${scname}`
 					),
 				);
-				}else{}
+				}else{
+					console.log('未处理' + x)
+				}
 				
 				break;
 //定时任务
@@ -157,7 +159,7 @@ let op = x.match(/\x20response-header/) ?
 					`${noteK}$1 - reject${Urx2Dict}${Urx2Array}${Urx2200}${Urx2Img}`)
 				);
 				}else{
-					
+					console.log('未处理' + x)
 				}
 				
 				break;
@@ -246,7 +248,7 @@ ${MITM}`
 		.replace(/"{2,}/g,'"')
 
 
- $done({ response: { status: 200 ,body:body } });
+ $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
 })()
 .catch((e) => {
