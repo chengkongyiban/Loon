@@ -8,6 +8,12 @@
 let req = $request.url.replace(/sg$/,'')
 let name = '#!name = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
 let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
+const stickerStartNum = 1000;
+const stickerSum = 199;
+let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
+let imgUrl = "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+let icon = '#!icon = ' + imgUrl;
+
 !(async () => {
   let body = await http(req);
 
@@ -22,13 +28,14 @@ let others = [];          //不支持的内容
 //let HeaderRewrite = [];
 
 body.forEach((x, y, z) => {
+	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
 		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|^hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
 	
 	//判断注释
 	
-	if (x.match(/^[^#;/]/)){
+	if (x.match(/^[^#]/)){
 	var noteK = "";
 	}else{
 	var noteK = "#";
@@ -48,7 +55,7 @@ body.forEach((x, y, z) => {
 				
 				let proto = x.match('binary-body-mode=(true|1)') ? ',binary-body-mode=true' : '';
 				
-				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/(\#|\;|\/\/)/,'');
+				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/#/,'');
 				
 				let ptn = x.replace(/\s/gi,"").split("pattern=")[1].split(",")[0].replace(/\"/gi,'');
 				
@@ -93,7 +100,7 @@ body.forEach((x, y, z) => {
 //定时任务
 			case "cronexp":
 			x = x.replace(/cronexp/gi,'cronexp');
-				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/(\#|\;|\/\/)/,'')
+				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/#/,'')
 				
 				let cronJs = x.split("script-path=")[1].split(",")[0].replace(/\x20/gi,"")
 				
@@ -117,7 +124,7 @@ body.forEach((x, y, z) => {
 				//let url = x.match(/\^?http[^\s]+/)?.[0];
 
 				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-				URLRewrite.push(x.replace(/(\#|\;|\/\/)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
+				URLRewrite.push(x.replace(/(#)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 
 
@@ -133,7 +140,7 @@ body.forEach((x, y, z) => {
 				let mock2Other = x.match('dict|array|200|img|png|gif') ? '' : '-200';
 				URLRewrite.push(
 					x.replace(
-						/(\#|\;|\/\/)?(.+)data=.+/,
+						/(#)?(.+)data=.+/,
 						`${noteK}$2- reject${mock2Dict}${mock2Array}${mock2200}${mock2Img}${mock2Other}`
 					),
 				);
@@ -150,7 +157,7 @@ body.forEach((x, y, z) => {
 				if (type.match(" 30(2|7)")) {
 				z[y - 1]?.match("#")  && URLRewrite.push(z[y - 1]);
 				
-					URLRewrite.push(x.replace(/(\#|\;|\/\/)?(.+?)\x20(.+?)\x20(302|307)/, `${noteK}$2 $3 $4`));
+					URLRewrite.push(x.replace(/(#)?(.+?)\x20(.+?)\x20(302|307)/, `${noteK}$2 $3 $4`));
 				} 
 				if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match("#")  && Rule.push(z[y - 1]);
@@ -200,6 +207,7 @@ MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 
 body = `${name}
 ${desc}
+${icon}
 
 ${Rule}
 
