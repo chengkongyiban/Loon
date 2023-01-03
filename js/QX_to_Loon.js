@@ -48,9 +48,9 @@ body.forEach((x, y, z) => {
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
 				
-				let rebody = x.match('-body|-analyze') ? ',requires-body=true' : '';
+				let rebody = x.match('-body|-analyze') ? ', requires-body=true' : '';
 				
-				let proto = x.match('proto.js') ? ',binary-body-mode=true' : '';
+				let proto = x.match('proto.js') ? ', binary-body-mode=true' : '';
 				
 				let urlInNum = x.split(" ").indexOf("url");
 				
@@ -62,7 +62,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.+script-.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},tag=${scname}`,
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`,
 					),
 				);
 			}else{
@@ -82,7 +82,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.+enabled=.+/,
-						`${noteK}cron "${cronExp}" script-path=${cronJs},timeout=60,tag=${croName}`,
+						`${noteK}cron "${cronExp}" script-path=${cronJs}, timeout=60, tag=${croName}`,
 					),
 				);
 				break;
@@ -119,7 +119,7 @@ let op = x.match(/\x20response-header/) ?
 				break;
 ****************/				
 			case "hostname":
-				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\nhostname = $1`);
+				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = $1`);
 				break;
 			default:
 				if (type.match("url 30")) {
@@ -129,8 +129,8 @@ let op = x.match(/\x20response-header/) ?
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
 						x.replace(
-							/(#|;|\/\/)?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,requires-body=true, argument=$4->$5`,
+							/(#)?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
+							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument=$4->$5`,
 						),
 					);
 				}
@@ -138,17 +138,20 @@ let op = x.match(/\x20response-header/) ?
 	}
 }); //循环结束
 
-script = (script[0] || '') && `[Script]\n${script.join("\n")}`;
+script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n${URLRewrite.join("\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
 
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
 MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 
 body = `${name}
+
 ${desc}
+
 ${icon}
+
 
 ${URLRewrite}
 
@@ -156,7 +159,13 @@ ${HeaderRewrite}
 
 ${script}
 
-${MITM}`.replace(/\n{2,}/g,'\n\n').replace(/\x20{2,}/g,'\x20')
+${MITM}`
+		.replace(/#(.+)\n/g,'#$1')
+		.replace(/t&zd;/g,',')
+		.replace(/\n{2,}/g,'\n\n')
+		.replace(/"{2,}/g,'"')
+		.replace(/\x20{2,}/g,' ')
+		
 
 
 
