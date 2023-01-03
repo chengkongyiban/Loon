@@ -150,7 +150,7 @@ body.forEach((x, y, z) => {
 //hostname				
 			case "hostname":
 			x = x.replace(/\x20/gi,'');
-				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\nhostname = $2`);
+				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\n\nhostname = $2`);
 				break;
 			default:
 //重定向			
@@ -194,11 +194,11 @@ providers.push(
 
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
 
 URLRewrite = URLRewrite.replace(/"/gi,'')
 
-Rule = (Rule[0] || '') && `[Rule]\n\n${Rule.join("\n\n")}`;
+Rule = (Rule[0] || '') && `[Rule]\n\n${Rule.join("\n")}`;
 /********
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
@@ -206,9 +206,7 @@ MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
 ********/
 
 body = `${name}
-
 ${desc}
-
 ${icon}
 
 
@@ -219,7 +217,7 @@ ${URLRewrite}
 ${script}
 
 ${MITM}`
-		.replace(/#(.+)\n/g,'#$1')
+		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
 		.replace(/\n{2,}/g,'\n\n')
 		.replace(/"{2,}/g,'"')
