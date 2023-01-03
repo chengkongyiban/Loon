@@ -192,13 +192,13 @@ providers.push(
 	);
 *****/
 
-script = (script[0] || '') && `[Script]\n${script.join("\n\n")}`;
+script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n${URLRewrite.join("\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n\n")}`;
 
 URLRewrite = URLRewrite.replace(/"/gi,'')
 
-Rule = (Rule[0] || '') && `[Rule]\n${Rule.join("\n")}`;
+Rule = (Rule[0] || '') && `[Rule]\n\n${Rule.join("\n\n")}`;
 /********
 HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
