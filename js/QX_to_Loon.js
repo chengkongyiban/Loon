@@ -32,7 +32,7 @@ body.forEach((x, y, z) => {
 	)?.[0];
 	//判断注释
 	
-	if (x.match(/^[^#;/]/)){
+	if (x.match(/^[^#]/)){
 	var noteK = "";
 	}else{
 	var noteK = "#";
@@ -52,9 +52,11 @@ body.forEach((x, y, z) => {
 				
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				
-				let ptn = x.split(" ")[0].replace(/^#/,'');
+				let urlInNum = x.split(" ").indexOf("url");
 				
-				let js = x.split(" ")[3];
+				let ptn = x.split(" ")[urlInNum - 1].replace(/#/,"");
+				
+				let js = x.split(" ")[urlInNum + 2];
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
