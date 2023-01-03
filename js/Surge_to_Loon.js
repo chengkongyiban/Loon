@@ -66,7 +66,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/[^\s]+http-re[^\s]+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},script-update-interval=0,tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},tag=${scname}`
 					),
 				);
 				}if (x.match(/http-(response|request)\x20/)){
@@ -89,7 +89,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.*http-(response|request)\x20.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},script-update-interval=0,tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},tag=${scname}`
 					),
 				);
 				}else{
