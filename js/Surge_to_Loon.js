@@ -171,7 +171,7 @@ body.forEach((x, y, z) => {
 					others.push(
 						x.replace(
 							/([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`test = type=$2,pattern=$1,requires-body=1,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, argument=$3->$4`,
+							`test = type=$2,pattern=$1,requires-body=true,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, argument=$3->$4`,
 						),
 					);
 
