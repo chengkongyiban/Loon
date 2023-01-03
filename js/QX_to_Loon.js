@@ -151,16 +151,14 @@ Mock Loon不支持
 
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
 
 //HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
 MapLocal = (MapLocal[0] || '') && `[MapLocal]\n\n${MapLocal.join("\n\n")}`;
 
 body = `${name}
-
 ${desc}
-
 ${icon}
 
 
@@ -171,7 +169,7 @@ ${HeaderRewrite}
 ${script}
 
 ${MITM}`
-		.replace(/#(.+)\n/g,'#$1')
+		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
 		.replace(/\n{2,}/g,'\n\n')
 		.replace(/"{2,}/g,'"')
