@@ -62,7 +62,7 @@ body.forEach((x, y, z) => {
 				script.push(
 					x.replace(
 						/.+script-.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},script-update-interval=0,tag=${scname}`,
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto},tag=${scname}`,
 					),
 				);
 			}else{
