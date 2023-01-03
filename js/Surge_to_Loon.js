@@ -46,7 +46,7 @@ body.forEach((x, y, z) => {
 			case "http-re":
 //Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
-	x = x.replace(/\x20/gi,'').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
+	x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
@@ -69,7 +69,9 @@ body.forEach((x, y, z) => {
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
 					),
 				);
-				}if (x.match(/http-(response|request)\x20/)){
+				}else{
+					
+				if (x.match(/http-(response|request)\x20/)){
 
 //surge4脚本
 					x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
@@ -92,14 +94,16 @@ body.forEach((x, y, z) => {
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
 					),
 				);
+
 				}else{
 					
+				}
 				}
 				
 				break;
 //定时任务
 			case "cronexp":
-			x = x.replace(/cronexp/gi,'cronexp');
+			x = x.replace(/cronexpr/gi,'cronexp');
 				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/#/,'')
 				
 				let cronJs = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0]
@@ -118,7 +122,7 @@ body.forEach((x, y, z) => {
 
 //REJECT
 
-			case "\x20-\x20reject":
+			case " - reject":
 			
 				//let jct = x.match(/reject?[^\s]+/)[0];
 				//let url = x.match(/\^?http[^\s]+/)?.[0];
@@ -153,13 +157,13 @@ body.forEach((x, y, z) => {
 				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\n\nhostname = $2`);
 				break;
 			default:
-//重定向			
-				if (type.match(" 30(2|7)")) {
+//重定向
+				if (type.match(/ 30(2|7)/)){
 				z[y - 1]?.match("#")  && URLRewrite.push(z[y - 1]);
 				
-					URLRewrite.push(x.replace(/(#)?(.+?)\x20(.+?)\x20(302|307)/, `${noteK}$2 $3 $4`));
-				} 
-				if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
+					URLRewrite.push(x.replace(/(#)?([^\s]+)\x20([^\s]+)\x20(302|307)/, `${noteK}$2 $3 $4`));
+				}else{
+				 if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match("#")  && Rule.push(z[y - 1]);
 				
 					Rule.push(x);
@@ -175,8 +179,8 @@ body.forEach((x, y, z) => {
 						),
 					);
 
-
 				}
+			}
 		} //switch结束
 	}
 }); //循环结束
@@ -217,11 +221,11 @@ ${URLRewrite}
 ${script}
 
 ${MITM}`
-		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
-		.replace(/\n{2,}/g,'\n\n')
 		.replace(/"{2,}/g,'"')
 		.replace(/\x20{2,}/g,' ')
+		.replace(/(#.+\n)\n/g,'$1')
+		.replace(/\n{2,}/g,'\n\n')
 
 
  $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
