@@ -48,9 +48,9 @@ body.forEach((x, y, z) => {
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
 				
-				let rebody = x.match('-body|-analyze') ? ',requires-body=1' : '';
+				let rebody = x.match('-body|-analyze') ? ',requires-body=true' : '';
 				
-				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
+				let proto = x.match('proto.js') ? ',binary-body-mode=true' : '';
 				
 				let urlInNum = x.split(" ").indexOf("url");
 				
@@ -130,7 +130,7 @@ let op = x.match(/\x20response-header/) ?
 					script.push(
 						x.replace(
 							/(#|;|\/\/)?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,requires-body=1, argument=$4->$5`,
+							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js,requires-body=true, argument=$4->$5`,
 						),
 					);
 				}
