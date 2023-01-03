@@ -28,9 +28,10 @@ let MITM = "";
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/\x20script-|enabled=|url\x20reject|echo-response|\-header|^hostname|url\x20(302|307)|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response|\-header|^hostname| url 30|\x20(request|response)-body/
 	)?.[0];
-	//判断注释
+	
+//判断注释
 	
 	if (x.match(/^[^#]/)){
 	var noteK = "";
@@ -40,9 +41,7 @@ body.forEach((x, y, z) => {
 	
 	if (type) {
 		switch (type) {
-			case "\x20script-":
-			
-			if (x.match(' script-')){
+			case " url script-":
 //脚本							
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
@@ -64,9 +63,6 @@ body.forEach((x, y, z) => {
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`,
 					),
 				);
-			}else{
-				
-			}
 				break;
 				
 //定时任务
@@ -90,7 +86,7 @@ body.forEach((x, y, z) => {
 				
 //reject				
 
-			case "url\x20reject":
+			case " url reject":
 
 				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
 				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
@@ -117,26 +113,30 @@ let op = x.match(/\x20response-header/) ?
 					
 				}
 				break;
-/*************
-Mock Loon不支持
 
-			case "echo-response":
+//Mock Loon不支持
+
+			case " echo-response":
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
-				break;
-****************/				
+				break;		
 
 //mitm
 			case "hostname":
-				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = $1`);
+				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = $1`).replace(/,$/,"");
 				break;
-//302/307				
+				
+//302/307		
+				
+			case " url 30":
+			
+				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
+					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\x20(.+)/, `${noteK}$2 $4 $3`));
+				break;
+		
 			default:
-				if (type.match("url 30")) {
-					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
-				} else {
 //带参数脚本					
+
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
 						x.replace(
@@ -144,7 +144,6 @@ Mock Loon不支持
 							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument=$4->$5`,
 						),
 					);
-				}
 		} //switch结束
 	}
 }); //循环结束
@@ -169,11 +168,11 @@ ${HeaderRewrite}
 ${script}
 
 ${MITM}`
-		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/t&zd;/g,',')
-		.replace(/\n{2,}/g,'\n\n')
 		.replace(/"{2,}/g,'"')
 		.replace(/\x20{2,}/g,' ')
+		.replace(/(#.+\n)\n/g,'$1')
+		.replace(/\n{2,}/g,'\n\n')
 		
 
 
