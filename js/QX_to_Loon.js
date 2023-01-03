@@ -43,8 +43,7 @@ body.forEach((x, y, z) => {
 			case "\x20script-":
 			
 			if (x.match(' script-')){
-				
-			
+//脚本							
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
 				
@@ -69,6 +68,8 @@ body.forEach((x, y, z) => {
 				
 			}
 				break;
+				
+//定时任务
 
 			case "enabled=":
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
@@ -86,6 +87,8 @@ body.forEach((x, y, z) => {
 					),
 				);
 				break;
+				
+//reject				
 
 			case "url\x20reject":
 
@@ -93,15 +96,17 @@ body.forEach((x, y, z) => {
 				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 
+//headerRewrite 不懂这个欢迎赐教
+
 			case "-header":
 			if (x.match(/\(\\r\\n\)/g).length === 2){			
-				z[y - 1]?.match("#") &&  HeaderRewrite.push(z[y - 1]);
+				z[y - 1]?.match("#") &&  URLRewrite.push(z[y - 1]);
 let op = x.match(/\x20response-header/) ?
 'http-response ' : '';
      if(x.match(/\$1\$2/)){
-		  HeaderRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${op}$1 header-del $2`))	
+		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${op}$1 header-del $2`))	
 		}else{
-				HeaderRewrite.push(
+				URLRewrite.push(
 					x.replace(
 						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?([^\$]+)?\$2/,
 						`${op}$1 header-replace-regex $2 $3 $4''`,
@@ -109,23 +114,29 @@ let op = x.match(/\x20response-header/) ?
 				);
 				}
 				}else{
-	$notification.post('不支持这条规则转换,已跳过','',`${x}`);
+					
 				}
 				break;
 /*************
+Mock Loon不支持
+
 			case "echo-response":
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;
 ****************/				
+
+//mitm
 			case "hostname":
 				MITM = x.replace(/hostname\x20?=(.*)/, `[MITM]\n\nhostname = $1`);
 				break;
+//302/307				
 			default:
 				if (type.match("url 30")) {
 					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
 					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\s(.+)/, `${noteK}$2 $4 $3`));
 				} else {
+//带参数脚本					
 					z[y - 1]?.match("#") && script.push(z[y - 1]);
 					script.push(
 						x.replace(
@@ -140,11 +151,11 @@ let op = x.match(/\x20response-header/) ?
 
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
-URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
+URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n\n")}`;
 
-HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
+//HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
 
-MapLocal = (MapLocal[0] || '') && `[MapLocal]\n${MapLocal.join("\n")}`;
+MapLocal = (MapLocal[0] || '') && `[MapLocal]\n\n${MapLocal.join("\n\n")}`;
 
 body = `${name}
 
