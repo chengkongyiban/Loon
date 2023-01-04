@@ -46,7 +46,7 @@ body.forEach((x, y, z) => {
 			case "http-re":
 //Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
-	x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
+	x = x.replace(/\x20/gi,'').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
@@ -77,8 +77,8 @@ body.forEach((x, y, z) => {
 					x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 					
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
-				let proto = x.match('binary-body-mode=(true|1)') ? ', binary-body-mode=true' : '';
-				let rebody = x.match('requires-body=(true|1)') ? ', requires-body=true' : '';
+				let proto = x.replace(/\x20/gi,'').match('binary-body-mode=(true|1)') ? ', binary-body-mode=true' : '';
+				let rebody = x.replace(/\x20/gi,'').match('requires-body=(true|1)') ? ', requires-body=true' : '';
 				
 				let ptn = x.split(" ")[1].replace(/\"/gi,'');
 				
@@ -153,7 +153,7 @@ body.forEach((x, y, z) => {
 				
 //hostname				
 			case "hostname":
-			x = x.replace(/\x20/gi,'');
+			x = x.replace(/,$/,'').replace(/\x20/gi,'');
 				MITM = x.replace(/hostname=(%.+%)?(.*)/, `[MITM]\n\nhostname = $2`);
 				break;
 			default:
