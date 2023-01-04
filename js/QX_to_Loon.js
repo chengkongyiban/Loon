@@ -27,8 +27,8 @@ if (urlArg === ""){
 		desc = name;
 	}
 };
-name = "name: " + decodeURIComponent(name);
-desc = "desc: " + decodeURIComponent(desc);
+name = "#!name= " + decodeURIComponent(name);
+desc = "#!desc= " + decodeURIComponent(desc);
 
 const stickerStartNum = 1000;
 const stickerSum = 199;
