@@ -27,6 +27,9 @@ if (urlArg === ""){
     desc = name;
 	}
 };
+name = "name: " + decodeURIComponent(name);
+desc = "desc: " + decodeURIComponent(desc);
+
 const stickerStartNum = 1000;
 const stickerSum = 199;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
