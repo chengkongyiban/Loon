@@ -2,17 +2,35 @@
 
 说明
    t&zd; = {  , }  花括号中的逗号
+原脚本作者@小白脸 脚本修改@chengkongyiban
+感谢@xream 的指导
+插件图标用的 @Keikinn 的 StickerOnScreen项目，感谢
 
 ***************************/
+var name = "";
+var desc = "";
+let req = $request.url.replace(/sg.*/,'');
+let urlArg = $request.url.replace(/.+sg(.*)/,'$1');
 
-let req = $request.url.replace(/sg$/,'')
-let name = '#!name = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
-let desc = '#!desc = ' + req.match(/.+\/(.+)\.(sgmodule|module|js)/)?.[1] || '无名';
+if (urlArg === ""){
+	name = req.match(/.+\/(.+)\.(module|js|sgmodule)/)?.[1] || '无名';
+    desc = req.match(/.+\/(.+)\.(module|js|sgmodule)/)?.[1] || '无名';
+}else{
+	if(urlArg.match("n=")){
+		name = urlArg.split("n=")[1].split("&")[0];
+	}else{
+	name = req.match(/.+\/(.+)\.(module|js|sgmodule)/)?.[1] || '无名';
+	}
+	if(urlArg.match("d=")){
+		desc = urlArg.split("d=")[1].split("&")[0];
+	}else{
+    desc = name;
+	}
+};
 const stickerStartNum = 1000;
 const stickerSum = 199;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
-let imgUrl = "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
-let icon = '#!icon = ' + imgUrl;
+let icon = "#!icon = " + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
 
 !(async () => {
   let body = await http(req);
