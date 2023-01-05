@@ -9,8 +9,8 @@
 ***************************/
 var name = "";
 var desc = "";
-let req = $request.url.replace(/sg.*/,'');
-let urlArg = $request.url.replace(/.+sg(.*)/,'$1');
+let req = $request.url.replace(/sg$|sg\?.*/,'');
+let urlArg = $request.url.replace(/.+sg(\?.*)/,'$1');
 
 if (urlArg === ""){
 	name = req.match(/.+\/(.+)\.(module|js|sgmodule)/)?.[1] || '无名';
@@ -51,7 +51,7 @@ let others = [];          //不支持的内容
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|^hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
+		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
 	
 	//判断注释
@@ -82,12 +82,16 @@ body.forEach((x, y, z) => {
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
+				let arg = [];
+				
+				if (x.match("argument")){
+			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
 				
 				
 				script.push(
 					x.replace(
 						/[^\s]+http-re[^\s]+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
 					),
 				);
 				}else{
@@ -108,11 +112,15 @@ body.forEach((x, y, z) => {
 				let sctype = x.match('http-response') ? 'response' : 'request';
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
-					
+				
+				if (x.match("argument")){
+			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
+			}else{}
+				
 				script.push(
 					x.replace(
 						/.*http-(response|request)\x20.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
 					),
 				);
 
