@@ -27,13 +27,13 @@ if (urlArg === ""){
     desc = name;
 	}
 };
-name = "#!name= " + decodeURIComponent(name);
-desc = "#!desc= " + decodeURIComponent(desc);
+name = "#!name=" + decodeURIComponent(name);
+desc = "#!desc=" + decodeURIComponent(desc);
 
 const stickerStartNum = 1000;
 const stickerSum = 199;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
-let icon = "#!icon = " + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+let icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
 
 !(async () => {
   let body = await http(req);
@@ -51,7 +51,7 @@ let others = [];          //不支持的内容
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
+		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|^hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
 	
 	//判断注释
