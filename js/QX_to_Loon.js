@@ -9,8 +9,8 @@
 ***************************/
 var name = "";
 var desc = "";
-let req = $request.url.replace(/qx.*/,'');
-let urlArg = $request.url.replace(/.+qx(.*)/,'$1');
+let req = $request.url.replace(/qx$|qx\?.*/,'');
+let urlArg = $request.url.replace(/.+qx(\?.*)/,'$1');
 
 if (urlArg === ""){
 	name = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
@@ -49,7 +49,7 @@ let MITM = "";
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response|\-header|^hostname| url 30|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response|\-header|hostname| url 30|\x20(request|response)-body/
 	)?.[0];
 	
 //判断注释
