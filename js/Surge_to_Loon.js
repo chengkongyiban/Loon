@@ -64,6 +64,7 @@ body.forEach((x, y, z) => {
 	
 	if (type) {
 		switch (type) {
+			
 			case "http-re":
 //Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
@@ -85,24 +86,24 @@ body.forEach((x, y, z) => {
 				let arg = [];
 				
 				if (x.match("argument")){
-			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
-				
+			arg = ", argument=" +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
 				
 				script.push(
 					x.replace(
 						/[^\s]+http-re[^\s]+/,
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
 					),
-				);
-				}else{
-					
-				if (x.match(/http-(response|request)\x20/)){
+				);}else{}			
+
+				}else{if (x.match(/http-(response|request)\x20/)){
 
 //surge4脚本
 					x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 					
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
+				
 				let proto = x.replace(/\x20/gi,'').match('binary-body-mode=(true|1)') ? ', binary-body-mode=true' : '';
+				
 				let rebody = x.replace(/\x20/gi,'').match('requires-body=(true|1)') ? ', requires-body=true' : '';
 				
 				let ptn = x.split(" ")[1].replace(/\"/gi,'');
@@ -115,22 +116,20 @@ body.forEach((x, y, z) => {
 				
 				if (x.match("argument")){
 			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
-			}else{}
+				}else{}
 				
 				script.push(
 					x.replace(
-						/.*http-(response|request)\x20.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
+						/.*http-(response|request)\x20.+/,`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
 					),
 				);
 
-				}else{
-					
-				}
-				}
-				
+				}else{}
+}
 				break;
 //定时任务
+
+
 			case "cronexp":
 			x = x.replace(/cronexpr/gi,'cronexp');
 				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/#/,'')
