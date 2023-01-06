@@ -51,7 +51,7 @@ let others = [];          //不支持的内容
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|\x20data=|\-header|^hostname| 30(2|7)|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
+		/http-re|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
 	
 	//判断注释
@@ -87,16 +87,29 @@ body.forEach((x, y, z) => {
 				
 				if (x.match("argument")){
 			arg = ", argument=" +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
-				
+			}else{}
+			
 				script.push(
 					x.replace(
 						/[^\s]+http-re[^\s]+/,
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
-					),
-				);}else{}			
+					),);
+				
 
-				}else{if (x.match(/http-(response|request)\x20/)){
-
+				}else{
+//HeaderRewrite					
+				if (x.match(/\x20header-/)){
+					
+					z[y - 1]?.match("#") &&  URLRewrite.push("    " + z[y - 1]);
+				
+					if (x.match(/header-replace-regex/)){
+				URLRewrite.push(x.replace(/#?http-(response|request)\x20/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
+					}else{
+			URLRewrite.push(`${noteK}` + x.replace(/#?http-(response|request)\x20/,""))
+					};//HeaderRewrite结束
+				}else{
+					
+				if (x.match(/http-(response|request)\x20/)){
 //surge4脚本
 					x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
 					
@@ -125,7 +138,10 @@ body.forEach((x, y, z) => {
 				);
 
 				}else{}
-}
+
+				}
+				}//整个http-re结束
+				
 				break;
 //定时任务
 
@@ -151,9 +167,6 @@ body.forEach((x, y, z) => {
 //REJECT
 
 			case " - reject":
-			
-				//let jct = x.match(/reject?[^\s]+/)[0];
-				//let url = x.match(/\^?http[^\s]+/)?.[0];
 
 				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
 				URLRewrite.push(x.replace(/(#)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
@@ -186,28 +199,16 @@ body.forEach((x, y, z) => {
 				break;
 			default:
 //重定向
-				if (type.match(/ 30(2|7)/)){
+				if (type.match(" (302|307|header)")){
 				z[y - 1]?.match("#")  && URLRewrite.push(z[y - 1]);
 				
-					URLRewrite.push(x.replace(/(#)?([^\s]+)\x20([^\s]+)\x20(302|307)/, `${noteK}$2 $3 $4`));
+					URLRewrite.push(x.replace(/(#)?([^\s]+)\x20([^\s]+)\x20(302|307|header)/, `${noteK}$2 $3 $4`));
 				}else{
 				 if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match("#")  && Rule.push(z[y - 1]);
 				
 					Rule.push(x);
-				}else {
-
-//这个看不懂不做处理
-					
-					z[y - 1]?.match("#") && others.push(z[y - 1]);
-					others.push(
-						x.replace(
-							/([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`test = type=$2,pattern=$1,requires-body=true,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, argument=$3->$4`,
-						),
-					);
-
-				}
+				}else{}
 			}
 		} //switch结束
 	}
