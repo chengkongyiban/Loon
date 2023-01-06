@@ -117,16 +117,15 @@ body.forEach((x, y, z) => {
 
 			case "-header":
 			if (x.match(/\(\\r\\n\)/g).length === 2){			
-				z[y - 1]?.match("#") &&  URLRewrite.push(z[y - 1]);
-let op = x.match(/\x20response-header/) ?
-'http-response ' : '';
+				z[y - 1]?.match("#") &&  HeaderRewrite.push(z[y - 1]);
+				
      if(x.match(/\$1\$2/)){
-		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${op}$1 header-del $2`))	
+		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`$1 header-del $2`))	
 		}else{
 				URLRewrite.push(
 					x.replace(
-						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?([^\$]+)?\$2/,
-						`${op}$1 header-replace-regex $2 $3 $4''`,
+						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?\x20?([^\$]+)?\$2/,
+						`$1 header-replace $2 "$4"`,
 					),
 				);
 				}
@@ -184,7 +183,6 @@ ${icon}
 
 ${URLRewrite}
 
-${HeaderRewrite}
 
 ${script}
 
@@ -196,8 +194,6 @@ ${MITM}`
 		.replace(/\n{2,}/g,'\n\n')
 		
 
-
-
  $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
 })()
@@ -205,8 +201,6 @@ ${MITM}`
 		$notification.post(`${e}`,'','');
 		$done()
 	})
-
-
 
 
 function http(req) {
