@@ -10,4 +10,6 @@ hostname =
 
 安装失败
 1、请检查模块商店是否安装
-2、请检查是否开启HTTPS解密，开启HTTPS解密教程https://t.me/h5683577/3
+2、请检查是否开启HTTPS解密
+小火箭开启HTTPS解密教程https://t.me/h5683577/3
+Surge开启HTTPS解密(MITM)教程https://t.me/h5683577/135
