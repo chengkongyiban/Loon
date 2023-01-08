@@ -11,21 +11,18 @@ var name = "";
 var desc = "";
 let req = $request.url.replace(/qx$|qx\?.*/,'');
 let urlArg = $request.url.replace(/.+qx(\?.*)/,'$1');
-
-if (urlArg === ""){
+var original = [];//用于获取原文行号
+//获取参数
+var nName = urlArg.indexOf("n=") != -1 ? (urlArg.split("n=")[1].split("&")[0].split("+")) : null;
+var Pin0 = urlArg.indexOf("y=") != -1 ? (urlArg.split("y=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
+var Pout0 = urlArg.indexOf("x=") != -1 ? (urlArg.split("x=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
+//修改名字和简介
+if (nName === null){
 	name = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
-    desc = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
+    desc = name;
 }else{
-	if(urlArg.match("n=")){
-		name = urlArg.split("n=")[1].split("&")[0];
-	}else{
-		name = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
-	}
-	if(urlArg.match("d=")){
-		desc = urlArg.split("d=")[1].split("&")[0];
-	}else{
-		desc = name;
-	}
+	name = nName[0] != "" ? nName[0] : req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1];
+	desc = nName[1] != undefined ? nName[1] : nName[0];
 };
 name = "#!name=" + decodeURIComponent(name);
 desc = "#!desc=" + decodeURIComponent(desc);
@@ -37,13 +34,14 @@ let icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/Sticker
 
 !(async () => {
   let body = await http(req);
-
+original = body.split("\n");
 	body = body.match(/[^\n]+/g);
 	
 let script = [];
 let URLRewrite = [];
 let HeaderRewrite = [];
 let MapLocal = [];
+let others = [];//不支持的内容
 let MITM = "";
 
 body.forEach((x, y, z) => {
@@ -51,6 +49,26 @@ body.forEach((x, y, z) => {
 	let type = x.match(
 		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response|\-header|^hostname| url 30|\x20(request|response)-body/
 	)?.[0];
+
+//去掉注释
+if(Pin0 != null)	{
+	for (let i=0; i < Pin0.length; i++) {
+  const elem = Pin0[i];
+	if (x.indexOf(elem) != -1){
+		x = x.replace(/^#/,"")
+	}else{};
+};//循环结束
+}else{};//去掉注释结束
+
+//增加注释
+if(Pout0 != null){
+	for (let i=0; i < Pout0.length; i++) {
+  const elem = Pout0[i];
+	if (x.indexOf(elem) != -1 && x.indexOf("hostname") == -1){
+		x = x.replace(/(.+)/,"#$1")
+	}else{};
+};//循环结束
+}else{};//增加注释结束
 	
 //判断注释
 	
@@ -64,7 +82,7 @@ body.forEach((x, y, z) => {
 		switch (type) {
 			case " url script-":
 //脚本							
-				z[y - 1]?.match("#") && script.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				let sctype = x.match('script-response') ? 'response' : 'request';
 				
 				let rebody = x.match('-body|-analyze') ? ', requires-body=true' : '';
@@ -89,7 +107,7 @@ body.forEach((x, y, z) => {
 //定时任务
 
 			case "enabled=":
-				z[y - 1]?.match("#") && script.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
 				let cronExp = x.split(" http")[0].replace(/#/,'');
 				
@@ -109,35 +127,44 @@ body.forEach((x, y, z) => {
 
 			case " url reject":
 
-				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 
 //headerRewrite 不懂这个欢迎赐教
 
 			case "-header":
+				
+				if (x.match(/\x20re[^\s]+-header/) != undefined){
+					
 			if (x.match(/\(\\r\\n\)/g).length === 2){			
-				z[y - 1]?.match("#") &&  HeaderRewrite.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) &&  URLRewrite.push(z[y - 1]);
 				
      if(x.match(/\$1\$2/)){
-		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`$1 header-del $2`))	
+		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${noteK}$1 header-del $2`))	
 		}else{
 				URLRewrite.push(
 					x.replace(
 						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?\x20?([^\$]+)?\$2/,
-						`$1 header-replace $2 "$4"`,
+						`${noteK}$1 header-replace $2 "$4"`,
 					),
 				);
 				}
 				}else{
 					
+let lineNum = original.indexOf(x) + 1;
+others.push(lineNum + "行" + x)
 				}
+}else{
+	let lineNum = original.indexOf(x) + 1;
+	others.push(lineNum + "行" + x)
+};//-header结束	}
 				break;
 
 //Mock Loon不支持
 
 			case " echo-response":
-				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/(\^?http[^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;		
 
@@ -150,18 +177,18 @@ body.forEach((x, y, z) => {
 				
 			case " url 30":
 			
-				z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
+				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\x20(.+)/, `${noteK}$2 $4 $3`));
 				break;
 		
 			default:
 //带参数脚本					
 
-					z[y - 1]?.match("#") && script.push(z[y - 1]);
+					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 					script.push(
 						x.replace(
 							/(#)?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument=$4->$5`,
+							`${noteK}http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument=$4->$5`,
 						),
 					);
 		} //switch结束
@@ -172,9 +199,9 @@ script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
 URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
 
-//HeaderRewrite = (HeaderRewrite[0] || '') && `[Header Rewrite]\n${HeaderRewrite.join("\n")}`;
+//MapLocal = (MapLocal[0] || '') && `[MapLocal]\n\n${MapLocal.join("\n\n")}`;
 
-MapLocal = (MapLocal[0] || '') && `[MapLocal]\n\n${MapLocal.join("\n\n")}`;
+others = (others[0] || '') && `${others.join("\n\n")}`;
 
 body = `${name}
 ${desc}
@@ -193,6 +220,7 @@ ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
 		
+others !="" && $notification.post("不支持的类型已跳过","第" + others,"点击查看原文，长按可展开查看跳过行",req);
 
  $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
