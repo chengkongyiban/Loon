@@ -22,6 +22,9 @@ var original = [];//用于获取原文行号
 var nName = urlArg.indexOf("n=") != -1 ? (urlArg.split("n=")[1].split("&")[0].split("+")) : null;
 var Pin0 = urlArg.indexOf("y=") != -1 ? (urlArg.split("y=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
 var Pout0 = urlArg.indexOf("x=") != -1 ? (urlArg.split("x=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
+var iconStatus = urlArg.indexOf("i=") != -1 ? false : true;
+console.log(iconStatus)
+var icon = "";
 //修改名字和简介
 if (nName === null){
 	name = req.match(/.+\/(.+)\.(conf|js|snippet|txt)/)?.[1] || '无名';
@@ -33,10 +36,15 @@ if (nName === null){
 name = "#!name=" + decodeURIComponent(name);
 desc = "#!desc=" + decodeURIComponent(desc);
 
-const stickerStartNum = 1000;
+//随机图标开关，不传入参数默认为开
+if (iconStatus === false){
+	icon = "#!icon=";
+}else{
+	const stickerStartNum = 1000;
 const stickerSum = 199;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
-let icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+   icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+};
 
 !(async () => {
   let body = await http(req);
