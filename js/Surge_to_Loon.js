@@ -7,6 +7,7 @@
 插件图标用的 @Keikinn 的 StickerOnScreen项目，感谢
 
 ***************************/
+const ua = $request.headers['User-Agent'] || $request.headers['user-agent']
 const isStashiOS = 'undefined' !== typeof $environment && $environment['stash-version'] && ua.indexOf('Macintosh') === -1
 const isSurgeiOS = 'undefined' !== typeof $environment && $environment['surge-version'];
 const isShadowrocket = 'undefined' !== typeof $rocket;
