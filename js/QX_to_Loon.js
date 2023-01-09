@@ -7,6 +7,11 @@
 插件图标用的 @Keikinn 的 StickerOnScreen项目，感谢
 
 ***************************/
+const isStashiOS = 'undefined' !== typeof $environment && $environment['stash-version'] && ua.indexOf('Macintosh') === -1
+const isSurgeiOS = 'undefined' !== typeof $environment && $environment['surge-version'];
+const isShadowrocket = 'undefined' !== typeof $rocket;
+const isLooniOS = 'undefined' != typeof $loon && /iPhone/.test($loon);
+
 var name = "";
 var desc = "";
 let req = $request.url.replace(/qx$|qx\?.*/,'');
@@ -213,6 +218,7 @@ ${URLRewrite}
 
 ${script}
 
+
 ${MITM}`
 		.replace(/t&zd;/g,',')
 		.replace(/"{2,}/g,'"')
@@ -220,7 +226,10 @@ ${MITM}`
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
 		
-others !="" && $notification.post("不支持的类型已跳过","第" + others,"点击查看原文，长按可展开查看跳过行",req);
+if (isSurgeiOS || isStashiOS) {
+           others !="" && $notification.post("不支持的类型已跳过","第" + others,"点击查看原文，长按可展开查看跳过行",{url:req});
+        } else {if (isLooniOS || isShadowrocket) {
+       others !="" && $notification.post("不支持的类型已跳过","第" + others,"点击查看原文，长按可展开查看跳过行",req);}};
 
  $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
 
