@@ -23,7 +23,6 @@ var nName = urlArg.indexOf("n=") != -1 ? (urlArg.split("n=")[1].split("&")[0].sp
 var Pin0 = urlArg.indexOf("y=") != -1 ? (urlArg.split("y=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
 var Pout0 = urlArg.indexOf("x=") != -1 ? (urlArg.split("x=")[1].split("&")[0].split("+")).map(decodeURIComponent) : null;
 var iconStatus = urlArg.indexOf("i=") != -1 ? false : true;
-console.log(iconStatus)
 var icon = "";
 //修改名字和简介
 if (nName === null){
