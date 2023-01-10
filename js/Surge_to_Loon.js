@@ -61,7 +61,7 @@ body.forEach((x, y, z) => {
 	let type = x.match(
 		/http-re|\x20header-|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
-console.log(type)
+
 //去掉注释
 if(Pin0 != null)	{
 	for (let i=0; i < Pin0.length; i++) {
