@@ -59,9 +59,9 @@ let others = [];          //不支持的内容
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
-		/http-re|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
+		/http-re|\x20header-|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
-
+console.log(type)
 //去掉注释
 if(Pin0 != null)	{
 	for (let i=0; i < Pin0.length; i++) {
@@ -173,9 +173,21 @@ others.push(lineNum + "行" + x)}
 				}//整个http-re结束
 				
 				break;
+				
+//不是以http-re开头的HeaderRewrite				
+			case " header-":
+					
+					z[y - 1]?.match(/^#/) &&  URLRewrite.push("    " + z[y - 1]);
+				
+					if (x.match(/header-replace-regex/)){
+				URLRewrite.push(x.replace(/#?http-(response|request)\x20/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
+					}else{
+			URLRewrite.push(`${noteK}` + x.replace(/#?http-(response|request)\x20/,""))
+					};//HeaderRewrite结束
+				
+				break;
+
 //定时任务
-
-
 			case "cronexp":
 			x = x.replace(/cronexpr/gi,'cronexp');
 				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/#/,'')
