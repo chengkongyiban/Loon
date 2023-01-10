@@ -47,6 +47,12 @@ let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).to
 
 !(async () => {
   let body = await http(req);
+//判断是否断网
+if(body == null){
+	$notification.post("重写转换：未获取到body","请检查网络及节点是否畅通","认为是bug?点击通知反馈","https://t.me/zhangpeifu")
+ $done({ response: { status: 404 ,body:{} } });
+}else{//以下开始重写及脚本转换
+
 original = body.split("\n");
 	body = body.match(/[^\n]+/g);
 	
@@ -208,6 +214,8 @@ others.push(lineNum + "行" + x)
 	}
 }); //循环结束
 
+
+
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
 URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
@@ -240,6 +248,8 @@ if (isSurgeiOS || isStashiOS) {
        others !="" && $notification.post("不支持的类型已跳过","第" + others,"点击查看原文，长按可展开查看跳过行",req);}};
 
  $done({ response: { status: 200 ,body:body ,headers: {'Content-Type': 'text/plain; charset=utf-8'} } });
+}//判断是否断网的反括号
+
 
 })()
 .catch((e) => {
