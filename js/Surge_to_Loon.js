@@ -256,7 +256,7 @@ others.push(lineNum + "行" + x)}
 				 if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match(/^#/)  && Rule.push(z[y - 1]);
 				
-					Rule.push(x);
+					Rule.push(x.replace(/#?(.+)/,`${noteK}$1`));
 				}else{
 let lineNum = original.indexOf(x) + 1;
 others.push(lineNum + "行" + x)}
