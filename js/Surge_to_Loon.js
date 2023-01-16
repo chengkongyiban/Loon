@@ -163,6 +163,8 @@ if(Pout0 != null){
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				
+				let arg = [];
+				
 				if (x.match("argument")){
 			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
 				}else{}
