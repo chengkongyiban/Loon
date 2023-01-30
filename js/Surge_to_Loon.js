@@ -65,7 +65,7 @@ let MITM = "";
 let others = [];          //不支持的内容
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/\x20{2,}/g," ");
+	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2').replace(" _ reject"," - reject").replace(/\x20{2,}/g," ");
 	let type = x.match(
 		/http-re|\x20header-|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
@@ -104,7 +104,7 @@ if(Pout0 != null){
 			case "http-re":
 //Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
-	x = x.replace(/\x20/gi,'').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
+	x = x.replace(/\x20/gi,'')
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
@@ -146,9 +146,7 @@ if(Pout0 != null){
 				}else{
 					
 				if (x.match(/http-(response|request)\x20/)){
-//surge4脚本
-					x = x.replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2');
-					
+//surge4脚本	
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
 				let proto = x.replace(/\x20/gi,'').match('binary-body-mode=(true|1)') ? ', binary-body-mode=true' : '';
