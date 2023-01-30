@@ -115,7 +115,7 @@ if(Pout0 != null){
 				
 				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/#/,'');
 				
-				let ptn = x.replace(/\x20/gi,"").split("pattern=")[1].split(",")[0].replace(/\"/gi,'');
+				let ptn = x.replace(/\x20/gi,"").split("pattern=")[1].split(",")[0].replace(/"/gi,'');
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
@@ -155,7 +155,7 @@ if(Pout0 != null){
 				
 				let rebody = x.replace(/\x20/gi,'').match('requires-body=(true|1)') ? ', requires-body=true' : '';
 				
-				let ptn = x.split(" ")[1].replace(/\"/gi,'');
+				let ptn = x.split(" ")[1].replace(/"/gi,'');
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
@@ -199,12 +199,12 @@ others.push(lineNum + "行" + x)}
 
 //定时任务
 			case "cronexp":
-			x = x.replace(/cronexpr/gi,'cronexp');
-				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/#/,'')
+			x = x.replace(/cronexpr/gi,'cronexp').replace(/"/g,'');
+				let croName = x.split("=")[0].replace(/\x20/gi,"").replace(/^#/,'')
 				
-				let cronJs = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0]
+				let cronJs = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
-				let cronExp = x.replace(/(.+cronexpr?\x20?=\x20?.+)/,"$1,").replace(/.+cronexpr?\x20?=\x20?(.+\x20.+?),.*/,"$1")
+				let cronExp = x.replace(/(.+cronexp\x20?=\x20?.+)/,"$1,").replace(/.+cronexp\x20?=\x20?(.+\x20.+?),.*/,"$1")
 				
 				script.push(
 					x.replace(
@@ -303,7 +303,6 @@ ${script}
 
 ${MITM}`
 		.replace(/t&zd;/g,',')
-		.replace(/"{2,}/g,'"')
 		.replace(/\x20{2,}/g,' ')
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
