@@ -283,7 +283,7 @@ URLRewrite = URLRewrite.replace(/"/gi,'')
 
 Rule = (Rule[0] || '') && `[Rule]\n\n${Rule.join("\n")}`;
 
-others = (others[0] || '') && `${others.join("\n\n")}`;
+others = (others[0] || '') && `${others.join("\n")}`;
 
 body = `${name}
 ${desc}
