@@ -104,7 +104,6 @@ if(Pout0 != null){
 			case "http-re":
 //Surge5脚本			
 			if (x.match(/=\x20?http-re/)) {
-	x = x.replace(/\x20/gi,'')
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
@@ -121,17 +120,18 @@ if(Pout0 != null){
 				
 				let arg = [];
 				
-				if (x.match("argument")){
-			arg = ", argument=" +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
+				if (x.match(/argument\x20?=.+/)){
+					if (x.match(/(argument\x20*?=\x20*?"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
+){
+			arg = ', argument=' + x.match(/argument\x20*?=\x20*?("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
+}else{
+			arg = ", argument=" +  x.replace(/argument\x20+=/gi,"argument=").split("argument=")[1].split(",")[0];}
 			}else{}
 			
 				script.push(
-					x.replace(
-						/[^\s]+http-re[^\s]+/,
 						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
-					),);
+					);
 				
-
 				}else{
 //HeaderRewrite					
 				if (x.match(/\x20header-/)){
@@ -163,14 +163,16 @@ if(Pout0 != null){
 				
 				let arg = [];
 				
-				if (x.match("argument")){
-			arg = `, argument=` +  x.replace(/argument\x20=/gi,"argument=").split("argument=")[1].split(",")[0];
-				}else{}
+				if (x.match(/argument\x20?=.+/)){
+					if (x.match(/(argument\x20*?=\x20*?"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
+){
+			arg = ', argument=' + x.match(/argument\x20*?=\x20*?("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
+}else{
+			arg = ", argument=" +  x.replace(/argument\x20+=/gi,"argument=").split("argument=")[1].split(",")[0];}
+			}else{}
 				
 				script.push(
-					x.replace(
-						/.*http-(response|request)\x20.+/,`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
-					),
+					`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
 				);
 
 				}else{
@@ -227,15 +229,15 @@ others.push(lineNum + "行" + x)}
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 				
 					let ptn = x.split(" data=")[0].replace(/^#|"/g,"");
-					let arg = x.split(" data=")[1].replace(/"/g,"");
+					let arg = x.split(' data="')[1].split('"')[0];
 					let scname = arg.substring(arg.lastIndexOf('/') + 1, arg.lastIndexOf('.') );
 					
-				if (arg.match(/(img|png|gif|jpg|dict|array|200|txt)/)){
+				if (arg.match(/(img|dict|array|200|blank)/i)){
 					
 				let mock2Dict = arg.match('dict') ? '-dict' : '';
 				let mock2Array = arg.match('array') ? '-array' : '';
-				let mock2200 = arg.match('200|txt') ? '-200' : '';
-				let mock2Img = x.match('(img|png|gif|jpg)') ? '-img' : '';
+				let mock2200 = arg.match('200|blank') ? '-200' : '';
+				let mock2Img = x.match('img') ? '-img' : '';
 				URLRewrite.push(
 					x.replace(
 						/.+data=.+/,
