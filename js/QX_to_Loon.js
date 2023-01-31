@@ -56,19 +56,17 @@ if(body == null){if(isSurgeiOS || isStashiOS){
 }else{//以下开始重写及脚本转换
 
 original = body.split("\n");
-	body = body.match(/[^\n]+/g);
+	body = body.match(/[^\r\n]+/g);
 	
 let script = [];
 let URLRewrite = [];
-let HeaderRewrite = [];
-let MapLocal = [];
 let others = [];//不支持的内容
 let MITM = "";
 
 body.forEach((x, y, z) => {
 	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/\x20{2,}/g," ");
 	let type = x.match(
-		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response\x20|\-header|^hostname| url 30|\x20(request|response)-body/
+		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response\x20|\-header\x20|^hostname| url 30|\x20(request|response)-body/
 	)?.[0];
 
 //去掉注释
@@ -151,35 +149,21 @@ if(Pout0 != null){
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
-
-//headerRewrite 不懂这个欢迎赐教
-
-			case "-header":
 				
-				if (x.match(/\x20re[^\s]+-header/) != undefined){
-					
-			if (x.match(/\(\\r\\n\)/g).length === 2){			
-				z[y - 1]?.match(/^#/) &&  URLRewrite.push(z[y - 1]);
+//(request|response)-header
+			case "-header ":
+				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
-     if(x.match(/\$1\$2/)){
-		  URLRewrite.push(x.replace(/(\^?http[^\s]+).+?n\)([^\:]+).+/,`${noteK}$1 header-del $2`))	
-		}else{
-				URLRewrite.push(
-					x.replace(
-						/(\^?http[^\s]+)[^\)]+\)([^:]+):([^\(]+).+\$1\x20?\2?\:?\x20?([^\$]+)?\$2/,
-						`${noteK}$1 header-replace $2 "$4"`,
-					),
-				);
-				}
-				}else{
-					
-let lineNum = original.indexOf(x) + 1;
-others.push(lineNum + "行" + x)
-				}
-}else{
-	let lineNum = original.indexOf(x) + 1;
-	others.push(lineNum + "行" + x)
-};//-header结束	}
+				let reHdType = x.match(' response-header ') ? 'response' : 'request';
+				
+				let reHdPtn = x.split(" url re")[0].replace(/^#/,"");
+				
+				let reHdArg1 = x.split(" " + reHdType + "-header ")[1];
+				
+				let reHdArg2 = x.split(" " + reHdType + "-header ")[2];
+				
+				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, argument="${reHdArg1}->${reHdArg2}"`)
+				
 				break;
 				
 			case " echo-response ":
@@ -223,8 +207,8 @@ others.push(lineNum + "行" + x)}
 					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 					script.push(
 						x.replace(
-							/(#)?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\2-body(.+)/,
-							`${noteK}http-$3 $2 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument=$4->$5`,
+							/^#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
+							`${noteK}http-$2 $1 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument="$3->$4"`,
 						),
 					);
 		} //switch结束
@@ -236,8 +220,6 @@ others.push(lineNum + "行" + x)}
 script = (script[0] || '') && `[Script]\n\n${script.join("\n\n")}`;
 
 URLRewrite = (URLRewrite[0] || '') && `[Rewrite]\n\n${URLRewrite.join("\n")}`;
-
-//MapLocal = (MapLocal[0] || '') && `[MapLocal]\n\n${MapLocal.join("\n\n")}`;
 
 others = (others[0] || '') && `${others.join("\n\n")}`;
 
@@ -254,7 +236,6 @@ ${script}
 
 ${MITM}`
 		.replace(/t&zd;/g,',')
-		.replace(/"{2,}/g,'"')
 		.replace(/\x20{2,}/g,' ')
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
@@ -273,7 +254,6 @@ if (isSurgeiOS || isStashiOS) {
 		$notification.post(`${e}`,'','');
 		$done()
 	})
-
 
 function http(req) {
   return new Promise((resolve, reject) =>
