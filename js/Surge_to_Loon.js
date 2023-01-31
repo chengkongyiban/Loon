@@ -56,7 +56,7 @@ if(body == null){if(isSurgeiOS || isStashiOS){
 }else{//以下开始重写及脚本转换
 
 original = body.split("\n");
-	body = body.match(/[^\n]+/g);
+	body = body.match(/[^\r\n]+/g);
 	
 let script = [];
 let Rule = [];
@@ -226,18 +226,18 @@ others.push(lineNum + "行" + x)}
 //Mock转reject/request
 
 			case " data=":
-				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 				
 					let ptn = x.split(" data=")[0].replace(/^#|"/g,"");
 					let arg = x.split(' data="')[1].split('"')[0];
 					let scname = arg.substring(arg.lastIndexOf('/') + 1, arg.lastIndexOf('.') );
 					
-				if (arg.match(/(img|dict|array|200|blank)/i)){
+				if (arg.match(/(img\.|dict\.|array\.|200\.|blank\.)/i)){
+				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
 					
-				let mock2Dict = arg.match('dict') ? '-dict' : '';
-				let mock2Array = arg.match('array') ? '-array' : '';
-				let mock2200 = arg.match('200|blank') ? '-200' : '';
-				let mock2Img = x.match('img') ? '-img' : '';
+				let mock2Dict = arg.match(/dict\./) ? '-dict' : '';
+				let mock2Array = arg.match(/array\./) ? '-array' : '';
+				let mock2200 = arg.match(/200\.|blank\./) ? '-200' : '';
+				let mock2Img = x.match(/img\./) ? '-img' : '';
 				URLRewrite.push(
 					x.replace(
 						/.+data=.+/,
@@ -246,6 +246,7 @@ others.push(lineNum + "行" + x)}
 				);
 				}else{
 		
+				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 		script.push(x.replace(/.*data=.*/,`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, argument=type=text/json&url=${arg}`))
 					
 				}
