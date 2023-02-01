@@ -64,7 +64,7 @@ let others = [];//不支持的内容
 let MITM = "";
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/\x20{2,}/g," ");
+	x = x.replace(/^(#|;|\/\/)/gi,'#');
 	let type = x.match(
 		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response\x20|\-header\x20|^hostname| url 30|\x20(request|response)-body/
 	)?.[0];
@@ -108,18 +108,15 @@ if(Pout0 != null){
 				
 				let proto = x.match('proto.js') ? ', binary-body-mode=true' : '';
 				
-				let urlInNum = x.split(" ").indexOf("url");
+				let urlInNum = x.replace(/\x20{2,}/g," ").split(" ").indexOf("url");
 				
-				let ptn = x.split(" ")[urlInNum - 1].replace(/#/,"");
+				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum - 1].replace(/^#/,"");
 				
-				let js = x.split(" ")[urlInNum + 2];
+				let js = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum + 2];
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
-					x.replace(
-						/.+script-.+/,
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`,
-					),
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
 				);
 				break;
 				
@@ -128,17 +125,14 @@ if(Pout0 != null){
 			case "enabled=":
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
-				let cronExp = x.split(" http")[0].replace(/#/,'');
+				let cronExp = x.replace(/\x20{2,}/g," ").split(" http")[0].replace(/#/,'');
 				
 				let cronJs = x.split("://")[1].split(",")[0].replace(/(.+)/,'https://$1');
 				
-				let croName = x.split("tag=")[1].split(",")[0];
+				let croName = x.replace(/\x20/g,"").split("tag=")[1].split(",")[0];
 				
 				script.push(
-					x.replace(
-						/.+enabled=.+/,
-						`${noteK}cron "${cronExp}" script-path=${cronJs}, timeout=60, tag=${croName}`,
-					),
+						`${noteK}cron "${cronExp}" script-path=${cronJs}, timeout=60, tag=${croName}`
 				);
 				break;
 				
@@ -147,7 +141,7 @@ if(Pout0 != null){
 			case " url reject":
 
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
-				URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
+				URLRewrite.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.*?)\x20url\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 				
 //(request|response)-header
@@ -156,13 +150,13 @@ if(Pout0 != null){
 				
 				let reHdType = x.match(' response-header ') ? 'response' : 'request';
 				
-				let reHdPtn = x.split(" url re")[0].replace(/^#/,"");
+				let reHdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
 				
 				let reHdArg1 = x.split(" " + reHdType + "-header ")[1];
 				
 				let reHdArg2 = x.split(" " + reHdType + "-header ")[2];
 				
-				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, argument="${reHdArg1}->${reHdArg2}"`)
+				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, tag=replaceHeader, argument="${reHdArg1}->${reHdArg2}"`)
 				
 				break;
 				
@@ -174,13 +168,14 @@ if(Pout0 != null){
 				
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
-				let urlInNum = x.split(" ").indexOf("url");
+				let urlInNum = x.replace(/\x20{2,}/g," ").split(" ").indexOf("url");
 				
-				let ptn = x.split(" ")[urlInNum - 1].replace(/#/,"");
+				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[urlInNum - 1].replace(/^#/,"");
 				
 				let scname = arg.substring(arg.lastIndexOf('/') + 1, arg.lastIndexOf('.') );
 				
-				script.push(x.replace(/.*echo-response.*/,`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, argument=type=text/json&url=${arg}, tag=${scname}`))
+				script.push(
+					`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}, argument=type=text/json&url=${arg}`)
 				
 			}else{
 let lineNum = original.indexOf(x) + 1;
@@ -190,7 +185,7 @@ others.push(lineNum + "行" + x)}
 
 //mitm
 			case "hostname":
-				MITM = x.replace(/.*hostname\x20?=(.*)/, `[MITM]\n\nhostname = $1`).replace(/,$/,"");
+				MITM = x.replace(/%.*%/g," ").replace(/\x20/g,"").replace(/hostname=(.*)/, `[MITM]\n\nhostname = $1`).replace(/,$/,"");
 				break;
 				
 //302/307		
@@ -198,21 +193,27 @@ others.push(lineNum + "行" + x)}
 			case " url 30":
 			
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
-					URLRewrite.push(x.replace(/(#)?(.*?)\x20url\x20(302|307)\x20(.+)/, `${noteK}$2 $4 $3`));
+					URLRewrite.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.*?)\x20url\x20(302|307)\x20(.+)/, `${noteK}$2 $4 $3`));
 				break;
 		
 			default:
 //带参数脚本					
 
 					z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
+				
+				let reBdType = x.match(' response-body ') ? 'response' : 'request';
+				
+				let reBdPtn = x.replace(/\x20{2,}/g," ").split(" url re")[0].replace(/^#/,"");
+				let reBdArg1 = x.split(" " + reBdType + "-body ")[1];
+				
+				let reBdArg2 = x.split(" " + reBdType + "-body ")[2];
+					
 					script.push(
-						x.replace(
-							/^#?([^\s]+)\x20url\x20(response|request)-body\x20(.+)\x20\2-body\x20(.+)/,
-							`${noteK}http-$2 $1 script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, argument="$3->$4"`,
-						),
+							`${noteK}http-${reBdType} ${reBdPtn} script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, tag=replaceBody, argument="${reBdArg1}->${reBdArg2}"`,
 					);
+				}
 		} //switch结束
-	}
+	
 }); //循环结束
 
 
@@ -236,7 +237,6 @@ ${script}
 
 ${MITM}`
 		.replace(/t&zd;/g,',')
-		.replace(/\x20{2,}/g,' ')
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
 		
