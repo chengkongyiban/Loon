@@ -103,7 +103,7 @@ if(Pout0 != null){
 			
 			case "http-re":
 //Surge5脚本			
-			if (x.match(/=\x20?http-re/)) {
+			if (x.match(/=\x20*http-re/)) {
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 				
 				let sctype = x.match('http-response') ? 'response' : 'request';
@@ -112,7 +112,7 @@ if(Pout0 != null){
 				
 				let proto = x.match('binary-body-mode=(true|1)') ? ', binary-body-mode=true' : '';
 				
-				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/#/,'');
+				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/^#/,'');
 				
 				let ptn = x.replace(/\x20/gi,"").split("pattern=")[1].split(",")[0].replace(/"/gi,'');
 				
@@ -120,26 +120,26 @@ if(Pout0 != null){
 				
 				let arg = [];
 				
-				if (x.match(/argument\x20?=.+/)){
-					if (x.match(/(argument\x20*?=\x20*?"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
+				if (x.match(/argument\x20*=.+/)){
+					if (x.match(/(argument\x20*=\x20*"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
 ){
-			arg = ', argument=' + x.match(/argument\x20*?=\x20*?("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
+			arg = ', argument=' + x.match(/argument\x20*=\x20*("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
 }else{
 			arg = ", argument=" +  x.replace(/argument\x20+=/gi,"argument=").split("argument=")[1].split(",")[0];}
 			}else{}
 			
 				script.push(
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}${arg}`
 					);
 				
 				}else{
 //HeaderRewrite					
 				if (x.match(/\x20header-/)){
 					
-					z[y - 1]?.match(/^#/) &&  URLRewrite.push("    " + z[y - 1]);
+					z[y - 1]?.match(/^#/) &&  URLRewrite.push(z[y - 1]);
 				
 					if (x.match(/header-replace-regex/)){
-				URLRewrite.push(x.replace(/#?http-(response|request)\x20/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
+				URLRewrite.push(x.replace(/#?http-(response|request)\x20+/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
 					}else{
 			URLRewrite.push(`${noteK}` + x.replace(/#?http-(response|request)\x20/,""))
 					};//HeaderRewrite结束
@@ -153,7 +153,7 @@ if(Pout0 != null){
 				
 				let rebody = x.replace(/\x20/gi,'').match('requires-body=(true|1)') ? ', requires-body=true' : '';
 				
-				let ptn = x.split(" ")[1].replace(/"/gi,'');
+				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[1].replace(/"/gi,'');
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
@@ -163,16 +163,16 @@ if(Pout0 != null){
 				
 				let arg = [];
 				
-				if (x.match(/argument\x20?=.+/)){
-					if (x.match(/(argument\x20*?=\x20*?"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
+				if (x.match(/argument\x20*?=.+/)){
+					if (x.match(/(argument\x20*=\x20*"+.*?,.*?"+)\x20*(,\x20*\w+|$)/)
 ){
-			arg = ', argument=' + x.match(/argument\x20*?=\x20*?("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
+			arg = ', argument=' + x.match(/argument\x20*=\x20*("+.*?,.*?"+)\x20*(,\x20*\w+|$)/)[1];
 }else{
 			arg = ", argument=" +  x.replace(/argument\x20+=/gi,"argument=").split("argument=")[1].split(",")[0];}
 			}else{}
 				
 				script.push(
-					`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}${arg}, tag=${scname}`
+					`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}${arg}`
 				);
 
 				}else{
@@ -187,10 +187,10 @@ others.push(lineNum + "行" + x)}
 //不是以http-re开头的HeaderRewrite				
 			case " header-":
 					
-					z[y - 1]?.match(/^#/) &&  URLRewrite.push("    " + z[y - 1]);
+					z[y - 1]?.match(/^#/) &&  URLRewrite.push(z[y - 1]);
 				
 					if (x.match(/header-replace-regex/)){
-				URLRewrite.push(x.replace(/#?http-(response|request)\x20/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
+				URLRewrite.push(x.replace(/#?http-(response|request)\x20+/,"").replace("-regex","").replace(/([^\s]+\x20[^\s]+)\x20[^\s]+\x20(.+)/,`${noteK}$1 $2`));
 					}else{
 			URLRewrite.push(`${noteK}` + x.replace(/#?http-(response|request)\x20/,""))
 					};//HeaderRewrite结束
@@ -204,13 +204,10 @@ others.push(lineNum + "行" + x)}
 				
 				let cronJs = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
-				let cronExp = x.replace(/(.+cronexp\x20?=\x20?.+)/,"$1,").replace(/.+cronexp\x20?=\x20?(.+\x20.+?),.*/,"$1")
+				let cronExp = x.replace(/(.+cronexp\x20*=.+)/,"$1,").replace(/.+cronexp\x20*=\x20*(.+\x20.+?),.*/,"$1")
 				
 				script.push(
-					x.replace(
-						/.+cronexp.+/,
-						`${noteK}cron "${cronExp}" script-path=${cronJs}, timeout=60, tag=${croName}`,
-					),
+						`${noteK}cron "${cronExp}" script-path=${cronJs}, timeout=60, tag=${croName}`
 				);
 				
 				break;
@@ -220,14 +217,14 @@ others.push(lineNum + "行" + x)}
 			case " - reject":
 
 				z[y - 1]?.match(/^#/) && URLRewrite.push(z[y - 1]);
-				URLRewrite.push(x.replace(/(#)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
+				URLRewrite.push(x.replace(/\x20{2,}/g," ").replace(/(^#)?(.+?)\x20-\x20(reject-200|reject-img|reject-dict|reject-array|reject)/, `${noteK}$2 - $3`));
 				break;
 			
 //Mock转reject/request
 
 			case " data=":
 				
-					let ptn = x.split(" data=")[0].replace(/^#|"/g,"");
+					let ptn = x.replace(/\x20{2,}/g," ").split(" data=")[0].replace(/^#|"/g,"");
 					let arg = x.split(' data="')[1].split('"')[0];
 					let scname = arg.substring(arg.lastIndexOf('/') + 1, arg.lastIndexOf('.') );
 					
@@ -239,18 +236,15 @@ others.push(lineNum + "行" + x)}
 				let mock2200 = arg.match(/200\.|blank\./) ? '-200' : '';
 				let mock2Img = x.match(/img\./) ? '-img' : '';
 				URLRewrite.push(
-					x.replace(
-						/.+data=.+/,
 						`${noteK}${ptn} - reject${mock2Dict}${mock2Array}${mock2200}${mock2Img}`
-					),
 				);
 				}else{
 		
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
-		script.push(x.replace(/.*data=.*/,`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, argument=type=text/json&url=${arg}`))
+		script.push(
+			`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}, argument=type=text/json&url=${arg}`)
 					
 				}
-				
 				break;
 				
 //hostname				
@@ -263,7 +257,8 @@ others.push(lineNum + "行" + x)}
 				if (type.match(" (302|307|header)")){
 				z[y - 1]?.match(/^#/)  && URLRewrite.push(z[y - 1]);
 				
-					URLRewrite.push(x.replace(/(#)?([^\s]+)\x20([^\s]+)\x20(302|307|header)/, `${noteK}$2 $3 $4`));
+					URLRewrite.push(
+						x.replace(/\x20{2,}/g," ").replace(/(^#)?([^\s]+)\x20([^\s]+)\x20(302|307|header)/, `${noteK}$2 $3 $4`));
 				}else{
 				 if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match(/^#/)  && Rule.push(z[y - 1]);
@@ -304,7 +299,6 @@ ${script}
 
 ${MITM}`
 		.replace(/t&zd;/g,',')
-		.replace(/\x20{2,}/g,' ')
 		.replace(/(#.+\n)\n/g,'$1')
 		.replace(/\n{2,}/g,'\n\n')
 
