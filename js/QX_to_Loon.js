@@ -156,8 +156,7 @@ if(Pout0 != null){
 				
 				let reHdArg2 = x.split(" " + reHdType + "-header ")[2];
 				
-				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, tag=replaceHeader, argument="${reHdArg1}->${reHdArg2}"`)
-				
+				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, tag=replaceHeader, argument=${reHdArg1}->${reHdArg2}`);			
 				break;
 				
 			case " echo-response ":
