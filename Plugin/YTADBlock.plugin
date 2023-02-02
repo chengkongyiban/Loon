@@ -1,5 +1,5 @@
 #!name=YouTube去广告
-#!desc=全面去广告，只需要这一个插件
+#!desc=去除 Youtube 广告 (IOS >= 15)
 #!homepage=https://github.com/Maasea
 #!author=@Maasea
 #!icon=https://gitlab.com/lodepuly/vpn_tool/-/raw/main/Resource/Icon/80px/YouTube.png
@@ -12,7 +12,7 @@
 [Script]
 
 # 该模块已足够全面，无需其他规则混用，防止重写规则被破坏。
-http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting) script-path=https://raw.githubusercontent.com/chengkongyiban/shadowrocket/main/scripts/YouTube-proto.js, requires-body=true, binary-body-mode=true, tag=youtube
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting)\? script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.js, requires-body=true, binary-body-mode=true, tag=youtube
 
 [MITM]
 
