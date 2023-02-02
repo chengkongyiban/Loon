@@ -65,7 +65,7 @@ let MITM = "";
 let others = [];          //不支持的内容
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2').replace(" _ reject"," - reject");
+	x = x.replace(/^(#|;|\/\/)/gi,'#').replace(/(\{.*?)\,(.*?\})/gi,'$1t&zd;$2').replace(" _ reject"," - reject").replace(/(^[^#].+)\x20+\/\/.+/,"$1");
 	let type = x.match(
 		/http-re|\x20header-|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
@@ -263,7 +263,7 @@ others.push(lineNum + "行" + x)}
 				 if (type.match(/(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/)) {
 					z[y - 1]?.match(/^#/)  && Rule.push(z[y - 1]);
 				
-					Rule.push(x.replace(/#?(.+)/,`${noteK}$1`));
+					Rule.push(x.replace(/#?(.+)/,`${noteK}$1`).replace(/-NO-DROP$|-TINYGIF$|-200$/,""));
 				}else{
 let lineNum = original.indexOf(x) + 1;
 others.push(lineNum + "行" + x)}
