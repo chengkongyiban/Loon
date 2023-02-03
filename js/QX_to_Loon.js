@@ -116,7 +116,7 @@ if(Pout0 != null){
 				
 				let scname = js.substring(js.lastIndexOf('/') + 1, js.lastIndexOf('.') );
 				script.push(
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}_${y}`
 				);
 				break;
 				
@@ -156,7 +156,7 @@ if(Pout0 != null){
 				
 				let reHdArg2 = x.split(" " + reHdType + "-header ")[2];
 				
-				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, tag=replaceHeader, argument=${reHdArg1}->${reHdArg2}`);			
+				script.push(`${noteK}http-${reHdType} ${reHdPtn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/replace-header/index.js, tag=replaceHeader_${y}, argument=${reHdArg1}->${reHdArg2}`);			
 				break;
 				
 			case " echo-response ":
@@ -174,7 +174,7 @@ if(Pout0 != null){
 				let scname = arg.substring(arg.lastIndexOf('/') + 1, arg.lastIndexOf('.') );
 				
 				script.push(
-					`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}, argument=type=text/json&url=${arg}`)
+					`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}_${y}, argument=type=text/json&url=${arg}`)
 				
 			}else{
 let lineNum = original.indexOf(x) + 1;
@@ -208,7 +208,7 @@ others.push(lineNum + "行" + x)}
 				let reBdArg2 = x.split(" " + reBdType + "-body ")[2];
 					
 					script.push(
-							`${noteK}http-${reBdType} ${reBdPtn} script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, tag=replaceBody, argument="${reBdArg1}->${reBdArg2}"`,
+							`${noteK}http-${reBdType} ${reBdPtn} script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js, requires-body=true, tag=replaceBody_${y}, argument="${reBdArg1}->${reBdArg2}"`,
 					);
 				}
 		} //switch结束
