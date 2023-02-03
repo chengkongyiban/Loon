@@ -129,7 +129,7 @@ if(Pout0 != null){
 			}else{}
 			
 				script.push(
-						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}${arg}`
+						`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}_${y}${arg}`
 					);
 				
 				}else{
@@ -172,7 +172,7 @@ if(Pout0 != null){
 			}else{}
 				
 				script.push(
-					`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}${arg}`
+					`${noteK}http-${sctype} ${ptn} script-path=${js}${rebody}${proto}, tag=${scname}_${y}${arg}`
 				);
 
 				}else{
@@ -243,7 +243,7 @@ others.push(lineNum + "行" + x)}
 		
 				z[y - 1]?.match(/^#/) && script.push(z[y - 1]);
 		script.push(
-			`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}, argument=type=text/json&url=${arg}`)
+			`${noteK}http-request ${ptn} script-path=https://raw.githubusercontent.com/xream/scripts/main/surge/modules/echo-response/index.js, tag=${scname}_${y}, argument=type=text/json&url=${arg}`)
 					
 				}
 				break;
