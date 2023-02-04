@@ -1,4 +1,4 @@
-#!name=QX或Surge重写转Loon
+#!name=QX或Surge重写&规则集转Loon
 #!desc=使用方法，在QX重写链接末尾加上qx  在surge模块链接末尾加上sg
 #!homepage=https://t.me/h5683577
 #!author=@小白脸 @chengkongyiban
@@ -9,6 +9,8 @@
 http-request qx\?.*|qx$ script-path=https://raw.githubusercontent.com/chengkongyiban/Loon/main/js/QX_to_Loon.js, requires-body=true, timeout=10, tag=QX转化Loon
 
 http-request sg\?.*|sg$ script-path=https://raw.githubusercontent.com/chengkongyiban/Loon/main/js/Surge_to_Loon.js, requires-body=true, timeout=10, tag=Surge转化Loon
+
+http-request r_parser.list$|r_parser.list\?.* script-path=https://raw.githubusercontent.com/chengkongyiban/stash/main/js/rule_parser.js, requires-body=true, tag=规则集转换
 
 [MITM]
 hostname = github.com,raw.githubusercontent.com,gist.githubusercontent.com,gitlab.com
