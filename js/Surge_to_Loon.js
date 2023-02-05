@@ -55,7 +55,7 @@ if(body == null){if(isSurgeiOS || isStashiOS){
 }//识别客户端通知
 }else{//以下开始重写及脚本转换
 
-original = body.replace(/^(#|;|\/\/)/g,'#').replace(/(\{.*?)\,(.*?\})/g,'$1t&zd;$2').replace(/ _ reject/g,' - reject').replace(/(^[^#].+)\x20+\/\/.+/g,"$1").split("\n");
+original = body.replace(/^(#|;|\/\/)/g,'#').replace(/ _ reject/g,' - reject').replace(/(^[^#].+)\x20+\/\/.+/g,"$1").split("\n");
 	body = body.match(/[^\r\n]+/g);
 	
 let script = [];
@@ -65,7 +65,7 @@ let MITM = "";
 let others = [];          //不支持的内容
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/g,'#').replace(/(\{.*?)\,(.*?\})/g,'$1t&zd;$2').replace(' _ reject',' - reject').replace(/(^[^#].+)\x20+\/\/.+/,"$1").replace(/hostname\x20*=/,'hostname=');
+	x = x.replace(/^(#|;|\/\/)/g,'#').replace(' _ reject',' - reject').replace(/(^[^#].+)\x20+\/\/.+/,"$1").replace(/hostname\x20*=/,'hostname=');
 	let type = x.match(
 		/http-re|\x20header-|cronexp|\x20-\x20reject|\x20data=|^hostname|\x20(302|307|header)$|(URL-REGEX|USER-AGENT|IP-CIDR|GEOIP|IP-ASN|DOMAIN)/
 	)?.[0];
@@ -114,7 +114,7 @@ if(Pout0 != null){
 				
 				let scname = x.replace(/\x20/gi,'').split("=")[0].replace(/^#/,'');
 				
-				let ptn = x.replace(/\x20/gi,"").split("pattern=")[1].split(",")[0].replace(/"/gi,'');
+				let ptn = x.replace(/(\{.*?)\,(.*?\})/g,'$1t&zd;$2').replace(/\x20/gi,"").split("pattern=")[1].split(",")[0].replace(/"/gi,'');
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
@@ -153,7 +153,7 @@ if(Pout0 != null){
 				
 				let rebody = x.replace(/\x20/gi,'').match('requires-body=(true|1)') ? ', requires-body=true' : '';
 				
-				let ptn = x.replace(/\x20{2,}/g," ").split(" ")[1].replace(/"/gi,'');
+				let ptn = x.replace(/(\{.*?)\,(.*?\})/g,'$1t&zd;$2').replace(/\x20{2,}/g," ").split(" ")[1].replace(/"/gi,'');
 				
 				let js = x.replace(/\x20/gi,"").split("script-path=")[1].split(",")[0];
 				
