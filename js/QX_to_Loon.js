@@ -40,9 +40,9 @@ if (iconStatus === false){
 	icon = "#!icon=";
 }else{
 	const stickerStartNum = 1000;
-const stickerSum = 199;
+const stickerSum = 335;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
-   icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+   icon = "#!icon=" + "https://raw.githubusercontent.com/Keikinn/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
 };
 
 !(async () => {
