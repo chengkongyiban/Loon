@@ -42,7 +42,7 @@ if (iconStatus === false){
 	const stickerStartNum = 1000;
 const stickerSum = 335;
 let randomStickerNum = parseInt(stickerStartNum + Math.random() * stickerSum).toString();
-   icon = "#!icon=" + "https://raw.githubusercontent.com/Keikinn/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
+   icon = "#!icon=" + "https://raw.githubusercontent.com/chengkongyiban/StickerOnScreen/main/Stickers/Sticker_" + randomStickerNum +".png";
 };
 
 !(async () => {
@@ -55,7 +55,7 @@ if(body == null){if(isSurgeiOS || isStashiOS){
 }//识别客户端通知
 }else{//以下开始重写及脚本转换
 
-original = body.replace(/^(#|;|\/\/)/,'#').replace(/\x20+url\x20+/," url ").replace(/(^[^#].+)\x20+\/\/.+/,"$1").split("\n");
+original = body.replace(/^(#|;|\/\/)/g,'#').replace(/\x20+url\x20+/g," url ").replace(/(^[^#].+)\x20+\/\/.+/g,"$1").split("\n");
 	body = body.match(/[^\r\n]+/g);
 	
 let script = [];
