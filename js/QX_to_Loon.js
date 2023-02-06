@@ -55,7 +55,7 @@ if(body == null){if(isSurgeiOS || isStashiOS){
 }//识别客户端通知
 }else{//以下开始重写及脚本转换
 
-original = body.replace(/^(#|;|\/\/)/g,'#').replace(/\x20+url\x20+/g," url ").replace(/(^[^#].+)\x20+\/\/.+/g,"$1").split("\n");
+original = body.replace(/^ *(#|;|\/\/)/g,'#').replace(/\x20+url\x20+/g," url ").replace(/(^[^#].+)\x20+\/\/.+/g,"$1").split("\n");
 	body = body.match(/[^\r\n]+/g);
 	
 let script = [];
@@ -64,7 +64,7 @@ let others = [];//不支持的内容
 let MITM = "";
 
 body.forEach((x, y, z) => {
-	x = x.replace(/^(#|;|\/\/)/,'#').replace(/\x20+url\x20+/," url ").replace(/hostname\x20*=/,"hostname=").replace(/(^[^#].+)\x20+\/\/.+/,"$1");
+	x = x.replace(/^ *(#|;|\/\/)/,'#').replace(/\x20+url\x20+/," url ").replace(/hostname\x20*=/,"hostname=").replace(/(^[^#].+)\x20+\/\/.+/,"$1");
 	let type = x.match(
 		/\x20url\x20script-|enabled=|\x20url\x20reject|\x20echo-response\x20|\-header\x20|^hostname| url 30|\x20(request|response)-body/
 	)?.[0];
