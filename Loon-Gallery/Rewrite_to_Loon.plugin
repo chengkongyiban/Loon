@@ -8,7 +8,7 @@
 [Script]
 http-request qx\?.*|qx$ script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_Rewrite_Parser.js, requires-body=true, timeout=10, tag=QX转化Loon
 
-http-request sg\?.*|sg$ script-path=https://raw.githubusercontent.com/chengkongyiban/Loon/main/js/Surge_to_Loon.js, requires-body=true, timeout=10, tag=Surge转化Loon
+http-request sg\?.*|sg$ script-path=https://github.com/chengkongyiban/stash/raw/main/js/Surge_Rewrite_Parser.js, requires-body=true, timeout=10, tag=Surge转化Loon
 
 http-request r_parser.list$|r_parser.list\?.* script-path=https://raw.githubusercontent.com/chengkongyiban/stash/main/js/rule_parser.js, requires-body=true, tag=规则集转换
 
