@@ -1,7 +1,8 @@
 #!name=QX或Surge重写&规则集转Loon
-#!desc=使用方法，在QX重写链接末尾加上qx  在surge模块链接末尾加上sg 规则集链接末尾加r_parser.list 支持解析QX & Clash规则集，脚本转换在QX脚本结尾加上 _script-converter-(stash|surge|loon|shadowrocket).js 根据你自己的app填写
+#!desc=使用方法，在QX重写链接末尾加上qx  在surge模块链接末尾加上sg 规则集链接末尾加r_parser.list 支持解析QX & Clash规则集，点击下方链接查看使用手册
 #!homepage=https://t.me/h5683577
 #!author=@小白脸 @chengkongyiban
+#!openurl=https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
 #!icon=https://github.com/chengkongyiban/shadowrocket/raw/main/584047B7-4D53-4429-9065-4D822D99E992.jpeg
 
 
