@@ -1,0 +1,11 @@
+#!name=test5
+#!desc=test5
+#!icon=https://github.com/KeiKinn/StickerOnScreen/raw/main/Stickers/Sticker_1177.png
+
+[Script]
+
+http-response ^https:\/\/api\.qiyou\.cn\/api\/common_bll\/v2\/member\/login_status script-path=1.js, requires-body=true, timeout=60 ,tag=1_0
+
+[MITM]
+
+hostname = api.qiyou.cn
