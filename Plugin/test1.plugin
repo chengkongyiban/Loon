@@ -1,11 +1,13 @@
-#!name=test5
-#!desc=test5
-#!icon=https://github.com/KeiKinn/StickerOnScreen/raw/main/Stickers/Sticker_1177.png
+#!name=aliYunPanCheckIn
+#!desc=aliYunPanCheckIn
+#!icon=https://github.com/KeiKinn/StickerOnScreen/raw/main/Stickers/Sticker_1084.png
 
 [Script]
 
-http-response ^https:\/\/api\.qiyou\.cn\/api\/common_bll\/v2\/member\/login_status script-path=1.js, requires-body=true, timeout=60 ,tag=1_0
+http-response https:\/\/auth.aliyundrive.com\/v2\/account\/token script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js, requires-body=true, tag=阿里云盘签到cookie_10
+
+cron "0 10 0 * * ?" script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js, timeout=60, tag=阿里云盘签到
 
 [MITM]
 
-hostname = api.qiyou.cn
+hostname = auth.aliyundrive.com
