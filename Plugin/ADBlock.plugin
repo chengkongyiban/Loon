@@ -7,7 +7,7 @@
 [Rewrite]
 
 #爱思去广告
-^https?:\/\/d\.image\.i4\.cn\/adInfo\/.+ reject-dict
+^https?:\/\/d\.image\.i4\.cn\/adInfo\/ reject
 #酷我9.1.0去广告
 ^https?:\/\/wapi\.kuwo\.cn\/api\/mobile\/index\/feed\?.+ reject-dict
 fvedio\.kuwo\.cn reject-dict
