@@ -4,9 +4,9 @@
 #!author=@小白脸 @chengkongyiban
 #!openurl=https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
 #!icon=https://github.com/chengkongyiban/shadowrocket/raw/main/584047B7-4D53-4429-9065-4D822D99E992.jpeg
-#!select=启用插件随机图标,开启,关闭
+#!select=启用插件随机图标,启用,禁用
+#!select=替换原始插件图标,启用,禁用
 #!select=插件随机图标合集,Doraemon,蜡笔小新
-#!select=替换原始插件图标,开启,关闭
 
 [Script]
 http-request \/[^/]+\.[^/]+qx$|qx\?(jsc|hnadd|hndel|n|y|x|del|i)= script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_Rewrite_Parser.js, requires-body=true, timeout=10, tag=QX转化Loon
