@@ -1,5 +1,5 @@
 # Loon
-Qx重写转Loon格式快捷指令 链接:https://t.me/h5683577/97
+重写及规则集转换器文档:https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
 
-Surge/火箭模块转Loon格式快捷指令 https://t.me/h5683577/97
-
+本仓库全部搬运自互联网，方便个人使用
+大部分都在里面添加了原作者的仓库地址
