@@ -7,7 +7,6 @@
 #!select=启用插件随机图标,启用,禁用
 #!select=替换原始插件图标,启用,禁用
 #!select=插件随机图标合集,Doraemon(100P),Shin-chan(100P)
-#!select=Start the Game,enable,false
 
 [Script]
 http-request \/[^/]+\.[^/]+qx$|qx\?(jsc|hnadd|hndel|n|y|x|del|i)= script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_Rewrite_Parser.js, requires-body=true, timeout=10, tag=QX转化Loon
