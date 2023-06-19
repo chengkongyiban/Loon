@@ -23,7 +23,7 @@ TestFlight账户管理脚本
 skip-proxy = iosapps.itunes.apple.com
 
 [Script]
-http-request ^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/TestFlight/TestFlightAccount.js,tag=TestFlight账户管理
+http-request ^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ requires-body=1,script-path=https://github.com/chengkongyiban/Loon/raw/main/js/TestFlightAccount.js,tag=TestFlight账户管理
 
 [MITM]
 hostname = testflight.apple.com
