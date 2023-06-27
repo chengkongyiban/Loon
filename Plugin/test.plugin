@@ -6,4 +6,4 @@ qwer cad 302
 
 baidu.com url reject-video
 
-URL-REGEX,baidu.com,REJECT
+URL-REGEX,baidu.com,DIRECT
