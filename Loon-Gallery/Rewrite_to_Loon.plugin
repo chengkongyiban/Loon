@@ -1,7 +1,7 @@
 #!name = 远程资源转换器
 #!desc = 将Quantumult X重写、Surge模块、Quantumult X规则、Clash规则集转换为Loon能识别的格式，点击下方链接以查看使用方法。
 #!openUrl = https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
-#!author = 小白脸 chengkongyiban
+#!author = 小白脸 chengkongyiban Toperlock
 #!homepage = https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
 #!icon = https://gitlab.com/lodepuly/iconlibrary/-/raw/master/Other_icon/120px/RemoteResourceConverter.png
 #!select = 启用插件随机图标, 启用, 禁用
