@@ -6,7 +6,7 @@
 #!icon = https://gitlab.com/lodepuly/iconlibrary/-/raw/master/Other_icon/120px/RemoteResourceConverter.png
 #!select = 启用插件随机图标, 启用, 禁用
 #!select = 替换原始插件图标, 启用, 禁用
-#!select = 插件随机图标合集, Doraemon(100P),Shin-chan(100P),Weslie-Wolffy(100P),Tom-Jerry(100P),Genshin(100P),Shin-Miya(100P),OnePiece(100P),Stitch(100P)
+#!select = 插件随机图标合集, Doraemon(100P),Shin-chan(100P),Weslie-Wolffy(100P),Tom-Jerry(100P),Genshin(100P),Shin-Miya(100P),OnePiece(100P),Stitch(100P),Pokemon(111P)
 
 [Script]
 http-request ^https?:\/\/.+\/[^/]+\.[^/]+(qx$|qx\?.+=) script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_Rewrite_Parser.js, requires-body=true, timeout=10, tag=QX转化Loon
