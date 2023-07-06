@@ -1,5 +1,5 @@
 #!name = 远程资源转换器
-#!desc = 现在默认缓存时间为1小时，可使用参数cachexp=修改缓存时间，单位：小时。将Quantumult X重写、Surge模块、Quantumult X规则、Clash规则集转换为Loon能识别的格式，点击下方链接以查看使用方法。
+#!desc = 现在默认缓存有效期为1小时，可使用参数cachexp=修改单链接缓存有效期，或者在Parser_cache_exp修改全局缓存有效期，单位：小时。将QX重写、Surge模块、QX规则、Clash规则集转换为Loon能识别的格式，点击下方链接以查看使用方法。
 #!openUrl = https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
 #!author = 小白脸 chengkongyiban Toperlock
 #!homepage = https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
