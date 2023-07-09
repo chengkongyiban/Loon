@@ -12,7 +12,7 @@
 [Script]
 http-request ^https?:\/\/.+\/[^/]+\.[^/]+(qx$|qx\?.+=) script-path=https://github.com/chengkongyiban/stash/raw/main/js/QX_Rewrite_Parser.js, requires-body=true, timeout=10, tag=QX转化Loon
 
-http-request ^https?:\/\/.+\/[^/]+\.[^/]+(sg$|sg\?.+=) script-path=https://github.com/chengkongyiban/stash/raw/main/js/Surge_Rewrite_Parser.js, requires-body=true, timeout=10, tag=Surge转化Loon
+http-request ^https?:\/\/.+\/[^/]+\.[^/]+[^Ttm](sg$|sg\?.+=) script-path=https://github.com/chengkongyiban/stash/raw/main/js/Surge_Rewrite_Parser.js, requires-body=true, timeout=10, tag=Surge转化Loon
 
 http-request ^https?:\/\/.+\/[^/]+\.[^/]+(loon$|loon\?.+=) script-path=https://github.com/chengkongyiban/stash/raw/main/js/Loon_Rewrite_Parser.js, requires-body=true, timeout=10, tag=Loon插件控制器
 
