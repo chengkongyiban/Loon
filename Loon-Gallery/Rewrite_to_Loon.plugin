@@ -1,5 +1,5 @@
 #!name = 远程资源转换器
-#!desc = 远程资源转换器已升级为，Script Hub ，请尽快将转换后的覆写迁移到新版本，旧版将在近期下架。指路 https://github.com/Script-Hub-Org/Script-Hub/wiki
+#!desc = 远程资源转换器已升级为，Script Hub ，请尽快将转换后的插件迁移到新版本，旧版将在近期下架。指路 https://github.com/Script-Hub-Org/Script-Hub/wiki
 #!openUrl = https://github.com/Script-Hub-Org/Script-Hub/wiki
 #!author = 小白脸 chengkongyiban Toperlock
 #!homepage = https://github.com/chengkongyiban/stash/tree/main/Rewrite_Parser_Wiki
