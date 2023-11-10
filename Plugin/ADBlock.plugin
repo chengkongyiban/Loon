@@ -5,7 +5,7 @@
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png
 
 [Rewrite]
-IP-CIDR,192.168.0.1/21,DIRECT
+
 #爱思去广告
 ^https?:\/\/d\.image\.i4\.cn\/adInfo\/ reject
 #酷我9.1.0去广告
