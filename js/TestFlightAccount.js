@@ -13,35 +13,11 @@ TestFlight账户管理脚本
 
 请注意，该脚本已经与"TF区域限制解除脚本"合并，如需使用该脚本请务必禁用它，否则可能出现APP安装异常
 
-*********************************
-Surge4 添加脚本：
-*********************************
-
-Surge模块地址：
-https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule
-
-
-*********************************
-QuantumultX 添加脚本：
-*********************************
-
-QuantumultX重写引用地址：
-https://raw.githubusercontent.com/NobyDa/Script/master/TestFlight/TestFlightAccount.js
-
-注：以上引用地址需要打开并使用KOP-XIAO资源解析器，如没有解析器请使用脚本配置：
-
 [rewrite_local]
-^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ url script-analyze-echo-response https://raw.githubusercontent.com/NobyDa/Script/master/TestFlight/TestFlightAccount.js
+^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ url script-analyze-echo-response https://github.com/chengkongyiban/Loon/raw/main/js/TestFlightAccount.js
 
 [mitm]
 hostname = testflight.apple.com
-
-*********************************
-Loon 添加脚本：
-*********************************
-
-Loon插件地址：
-https://raw.githubusercontent.com/NobyDa/Script/master/Loon/Loon_TF_Account.plugin
 
 *********************************/
 
