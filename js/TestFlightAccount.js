@@ -12,6 +12,9 @@ TestFlight账户管理脚本
  - 多方共享为实验性功能，双方都需要使用该脚本； 该功能主要解决某些APP的TF名额稀缺的问题
 
 请注意，该脚本已经与"TF区域限制解除脚本"合并，如需使用该脚本请务必禁用它，否则可能出现APP安装异常
+[General]
+
+skip-proxy = iosapps.itunes.apple.com
 
 [rewrite_local]
 ^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ url script-analyze-echo-response https://github.com/chengkongyiban/Loon/raw/main/js/TestFlightAccount.js
